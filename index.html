@@ -39,6 +39,7 @@
   --aviso-borda:#f0d9a8;
   --selo-bg:#f6e3b4;
   --selo-txt:#7a4a05;
+  --ok:#0f7a3f;
   color-scheme:light;
   --display:"Archivo","Arial Narrow",system-ui,sans-serif;
   --texto:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -46,10 +47,10 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-tema="claro"]){--mar:#1b2a4a;--mar-2:#263a62;--sobre-mar:#c3cbdb;--fundo:#0d121c;--papel:#161e2d;--tinta:#e6e9f0;--suave:#a2aabb;--linha:#283247;
   --hover:#1c2639;--mar-texto:#a9bde6;--brasa-texto:#ff8a8d;--marca-texto:#5a4517;--campo:#1e2940;--campo-borda:#33415f;
-  --aviso-bg:#2a2414;--aviso-borda:#5a4a22;--selo-bg:#4a3a12;--selo-txt:#f3d58a;color-scheme:dark;}}
+  --aviso-bg:#2a2414;--aviso-borda:#5a4a22;--selo-bg:#4a3a12;--selo-txt:#f3d58a;--ok:#5fd394;color-scheme:dark;}}
 :root[data-tema="escuro"]{--mar:#1b2a4a;--mar-2:#263a62;--sobre-mar:#c3cbdb;--fundo:#0d121c;--papel:#161e2d;--tinta:#e6e9f0;--suave:#a2aabb;--linha:#283247;
   --hover:#1c2639;--mar-texto:#a9bde6;--brasa-texto:#ff8a8d;--marca-texto:#5a4517;--campo:#1e2940;--campo-borda:#33415f;
-  --aviso-bg:#2a2414;--aviso-borda:#5a4a22;--selo-bg:#4a3a12;--selo-txt:#f3d58a;color-scheme:dark;}
+  --aviso-bg:#2a2414;--aviso-borda:#5a4a22;--selo-bg:#4a3a12;--selo-txt:#f3d58a;--ok:#5fd394;color-scheme:dark;}
 html[data-fonte="maior"]{font-size:112.5%}
 html[data-fonte="grande"]{font-size:125%}
 *,*::before,*::after{box-sizing:border-box}
@@ -153,6 +154,12 @@ a{color:var(--brasa-texto)}
 .area-top{grid-area:top}
 .area-principal{grid-area:principal}
 .area-indique{grid-area:indique}
+body.sem-indique .area-indique,body.sem-indique #linkIndique{display:none}
+body.sem-indique .layout{grid-template-areas:"top" "principal" "contato"}
+@media (min-width:1024px){
+  body.sem-indique .layout{grid-template-areas:"principal top" "principal contato" "principal ."}
+  body.sem-indique.em-resultado .layout{grid-template-areas:"principal contato" "principal ." }
+}
 .area-contato{grid-area:contato}
 body.em-resultado .area-top{display:none}
 @media (max-width:1023.98px){
@@ -421,6 +428,91 @@ mark{background:var(--marca-texto);color:inherit;border-radius:3px;padding:0 2px
 .dica strong{display:block;font-family:var(--display);font-size:1.05rem;margin-bottom:4px}
 .dica p{margin:0;font-size:.94rem;line-height:1.5;color:var(--tinta)}
 
+/* ---------- Comparador odontológico ---------- */
+.qa-corpo p{white-space:normal}
+.odonto{display:flex;flex-direction:column;gap:16px;border:1px solid var(--linha);border-radius:18px;padding:16px;background:var(--fundo)}
+.od-cab{display:flex;flex-direction:column;gap:10px}
+.od-titulo{font-family:var(--display);font-weight:800;font-size:1.25rem;line-height:1.25;color:var(--tinta)}
+.od-fatos{display:flex;flex-wrap:wrap;gap:6px}
+.od-fatos span{display:inline-flex;align-items:center;gap:5px;font-size:.8125rem;font-weight:700;color:var(--mar-texto);background:var(--papel);border:1px solid var(--linha);border-radius:999px;padding:4px 10px}
+.od-fatos .ico{width:14px;height:14px;color:var(--ok)}
+.od-passo{display:flex;flex-direction:column;gap:8px}
+.od-linha{flex-direction:row;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.od-rot{font-size:.875rem;font-weight:700;color:var(--suave)}
+.od-chips{display:flex;flex-wrap:wrap;gap:8px}
+.od-chip{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 13px;border-radius:999px;border:1px solid var(--linha);background:var(--papel);color:var(--tinta);font-weight:600;font-size:.875rem;cursor:pointer;text-align:left}
+.od-chip .ico{width:18px;height:18px;color:var(--mar-texto)}
+.od-chip:hover{border-color:var(--mar-texto)}
+.od-chip[aria-pressed="true"]{background:var(--mar-texto);border-color:var(--mar-texto);color:var(--papel)}
+.od-chip[aria-pressed="true"] .ico{color:inherit}
+.od-stepper{display:inline-flex;align-items:center;gap:4px;background:var(--papel);border:1px solid var(--linha);border-radius:999px;padding:3px}
+.od-stepper button{width:40px;height:40px;border-radius:999px;border:0;background:var(--fundo);color:var(--mar-texto);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.od-stepper button:disabled{opacity:.4;cursor:default}
+.od-stepper .ico{width:18px;height:18px}
+.od-stepper output{min-width:28px;text-align:center;font-family:var(--display);font-weight:800;font-size:1.125rem}
+.od-resumo{margin:0;font-size:.9375rem;line-height:1.5;background:var(--papel);border-radius:12px;padding:12px 14px;border:1px dashed var(--caramelo)}
+.od-planos{display:grid;gap:12px}
+@media (min-width:860px){
+  .od-planos{grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}
+  .od-planos .od-topo{flex-direction:column}
+  .od-planos .od-selos{flex-direction:row;flex-wrap:wrap;align-items:flex-start}
+  .od-planos .od-icones{grid-template-columns:repeat(3,1fr);row-gap:10px}
+}
+.od-plano{position:relative;background:var(--papel);border:1px solid var(--linha);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px;transition:border-color .2s,box-shadow .2s}
+.od-plano.indicado{border:2px solid var(--mar-texto);box-shadow:0 10px 26px rgba(20,27,43,.14)}
+.od-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.od-nome{display:flex;flex-direction:column;gap:2px}
+.od-nome strong{font-family:var(--display);font-weight:800;font-size:1.375rem;line-height:1.1}
+.od-nome span{font-size:.75rem;color:var(--suave);line-height:1.35}
+.od-selos{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.od-selo{font-size:.6875rem;font-weight:700;white-space:nowrap;border-radius:999px;padding:3px 9px;background:var(--selo-bg);color:var(--selo-txt)}
+.od-selo.ind{background:var(--mar-texto);color:var(--papel)}
+.od-preco{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-top:4px}
+.od-preco .valor{font-family:var(--display);font-weight:800;font-size:2rem;line-height:1;color:var(--brasa-texto);letter-spacing:-.5px}
+.od-preco .per{font-size:.8125rem;color:var(--suave);font-weight:600}
+.od-dia{margin:0;font-size:.8125rem;color:var(--suave)}
+.od-familia{margin:0;font-size:.875rem;background:var(--fundo);border-radius:10px;padding:8px 10px}
+.od-icones{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin:6px 0 2px;padding:10px 4px;border-top:1px solid var(--linha);border-bottom:1px solid var(--linha)}
+.od-ico{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.6875rem;font-weight:700;text-align:center}
+.od-ico .ico{width:24px;height:24px}
+.od-ico small{font-size:inherit}
+.od-ico.sim{color:var(--mar-texto)}
+.od-ico.sim .ico{color:var(--ok)}
+.od-ico.consulta{color:var(--suave)}
+.od-ico.consulta .ico{color:var(--caramelo)}
+.od-ico.nao{color:var(--linha)}
+.od-ico.nao small{color:var(--suave);opacity:.55;text-decoration:line-through}
+.od-ico.marcado.sim .ico,.od-ico.marcado.consulta .ico{transform:scale(1.15)}
+.od-ico.marcado.nao .ico{color:var(--brasa-texto);opacity:.7}
+.od-mais{margin:4px 0 0;font-size:.8125rem;font-weight:700;color:var(--suave)}
+.od-lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.od-lista li{display:flex;align-items:flex-start;gap:8px;font-size:.9375rem;line-height:1.4}
+.od-lista .ico{width:18px;height:18px;flex:none;margin-top:1px;color:var(--ok)}
+.od-lista li.novo{font-weight:700}
+.od-lista li.novo .ico{color:var(--caramelo)}
+.od-lista li.obs{color:var(--suave)}
+.od-lista li.obs .ico{color:var(--caramelo)}
+.od-falta{margin:4px 0 0;font-size:.8125rem;font-weight:700;color:var(--brasa-texto)}
+.od-detalhes summary{cursor:pointer;font-weight:700;font-size:.9375rem;color:var(--mar-texto);min-height:44px;display:flex;align-items:center}
+.od-tabela-wrap{overflow-x:auto;margin-top:6px;border-radius:12px;border:1px solid var(--linha);background:var(--papel)}
+.od-tabela{width:100%;border-collapse:collapse;font-size:.8125rem}
+.od-tabela th,.od-tabela td{padding:9px 5px;border-bottom:1px solid var(--linha);text-align:center;vertical-align:middle}
+.od-tabela thead th{font-family:var(--display);font-size:.8125rem;color:var(--mar-texto)}
+.od-tabela thead th:first-child{text-align:left;padding-left:10px}
+.od-tabela tbody th{text-align:left;font-weight:600;width:44%;padding-left:10px}
+.od-tabela td .ico{width:18px;height:18px;color:var(--ok)}
+.od-tabela td.nao{color:var(--suave)}
+.od-tabela td.consulta{color:var(--suave);font-weight:600;font-size:.6875rem;line-height:1.2}
+.od-tabela tr.od-car td{color:var(--brasa-texto);font-weight:800}
+.od-tabela tr:last-child th,.od-tabela tr:last-child td{border-bottom:0}
+.od-nota{margin:0;font-size:.8125rem;color:var(--suave)}
+@media (max-width:420px){
+  .odonto{padding:12px;margin:0 -4px}
+  .od-tabela thead th{font-size:.75rem}
+  .od-tabela tbody th{font-size:.75rem;width:40%}
+  .od-tabela th,.od-tabela td{padding:8px 3px}
+}
+
 /* ---------- Rodapé ---------- */
 footer{padding:8px 0 110px;text-align:center;color:var(--suave);font-size:0.8125rem;display:flex;flex-direction:column;gap:2px}
 
@@ -483,6 +575,15 @@ footer{padding:8px 0 110px;text-align:center;color:var(--suave);font-size:0.8125
     <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></symbol>
     <symbol id="i-grade" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
     <symbol id="i-relogio" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></symbol>
+    <symbol id="i-dente" viewBox="0 0 24 24"><path d="M7 3c-2.2 0-4 1.8-4 4.2 0 2.3.9 3.8 1.5 5.6.5 1.6.7 3.4 1.2 5.2.4 1.6 1 3 2.1 3 1.6 0 1.4-4.5 4.2-4.5s2.6 4.5 4.2 4.5c1.1 0 1.7-1.4 2.1-3 .5-1.8.7-3.6 1.2-5.2.6-1.8 1.5-3.3 1.5-5.6C21 4.8 19.2 3 17 3c-1.9 0-3.1 1-5 1S8.9 3 7 3z"/></symbol>
+    <symbol id="i-dente-trat" viewBox="0 0 24 24"><path d="M7 3c-2.2 0-4 1.8-4 4.2 0 2.3.9 3.8 1.5 5.6.5 1.6.7 3.4 1.2 5.2.4 1.6 1 3 2.1 3 1.6 0 1.4-4.5 4.2-4.5s2.6 4.5 4.2 4.5c1.1 0 1.7-1.4 2.1-3 .5-1.8.7-3.6 1.2-5.2.6-1.8 1.5-3.3 1.5-5.6C21 4.8 19.2 3 17 3c-1.9 0-3.1 1-5 1S8.9 3 7 3z"/><path d="M12 7.5v5M9.5 10h5"/></symbol>
+    <symbol id="i-brilho" viewBox="0 0 24 24"><path d="M11 3l1.9 5.1L18 10l-5.1 1.9L11 17l-1.9-5.1L4 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol>
+    <symbol id="i-lua" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
+    <symbol id="i-aparelho" viewBox="0 0 24 24"><path d="M7 3c-2.2 0-4 1.8-4 4.2 0 2.3.9 3.8 1.5 5.6.5 1.6.7 3.4 1.2 5.2.4 1.6 1 3 2.1 3 1.6 0 1.4-4.5 4.2-4.5s2.6 4.5 4.2 4.5c1.1 0 1.7-1.4 2.1-3 .5-1.8.7-3.6 1.2-5.2.6-1.8 1.5-3.3 1.5-5.6C21 4.8 19.2 3 17 3c-1.9 0-3.1 1-5 1S8.9 3 7 3z"/><path d="M3.5 10h17"/><rect x="7" y="8.5" width="3" height="3" rx=".5"/><rect x="14" y="8.5" width="3" height="3" rx=".5"/></symbol>
+    <symbol id="i-protese" viewBox="0 0 24 24"><path d="M3 10c2.6 5.5 15.4 5.5 18 0"/><path d="M3 10c2.6-3.3 15.4-3.3 18 0"/><path d="M7.5 8.6v4.6M12 8.1v5.6M16.5 8.6v4.6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-menos" viewBox="0 0 24 24"><path d="M6 12h12"/></symbol>
+    <symbol id="i-mais" viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></symbol>
     <symbol id="i-generico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></symbol>
   </defs>
 </svg>
@@ -632,7 +733,7 @@ const LIVE_SHEET_CSV_URL = "";
 
 // Data exibida no rodapé, no formato ANO-MÊS-DIA. Atualize sempre que mudar o conteúdo.
 // Com a planilha conectada, o portal tenta usar a data da última alteração informada por ela.
-const ULTIMA_ATUALIZACAO = "2026-10-02";
+const ULTIMA_ATUALIZACAO = "2026-10-15";
 
 // Horários de atendimento humano
 const HORARIOS = "8h às 9h, 11h30 às 12h30, 14h30 às 15h30 e 18h às 19h";
@@ -653,6 +754,10 @@ const EXTRA_AREAS = [{ label: "Recrutamento e Seleção", number: "5511989343339
 const CENTRAL_URL = "";
 // Por quantos dias uma resposta mostra o selo "Atualizada recentemente" (coluna atualizado_em da planilha)
 const DIAS_SELO = 30;
+// Assuntos inativos: ficam fora do portal (lista, busca, sugestões e mais procuradas).
+// Para reativar um assunto, basta tirá-lo desta lista.
+const CATEGORIAS_INATIVAS = ["Indique um Talento", "Documentos"];
+const MOSTRAR_INDIQUE = !CATEGORIAS_INATIVAS.includes("Indique um Talento");
 const INDIQUE_MSG = "Olá, quero indicar um talento para a Wessel.";
 
 // Ordem e ícone das categorias (categorias novas da planilha entram no fim, com ícone genérico)
@@ -678,6 +783,25 @@ const GLOSSARIO = [
   { termos: ["PAT"], sigla: true, titulo: "PAT", texto: "Posto de Atendimento ao Trabalhador, serviço público que divulga vagas de emprego na região." }
 ];
 
+// Planos odontológicos (Bradesco Dental). Valores mensais por pessoa.
+const PLANOS_ODONTO = [
+  { id: "padrao",  nome: "Padrão",  oficial: "Padrão DOC 1 Rol Ampliado + Doc. Orto", preco: 15.90, selo: "Recomendado Wessel" },
+  { id: "white",   nome: "White",   oficial: "Padrão DOC White Doc. Orto + Clareamento", preco: 38.15 },
+  { id: "premium", nome: "Premium", oficial: "Premium TOP 1 Ortodontia + Prótese", preco: 79.90 }
+];
+// "sim", "nao" ou "consulta". destaque: aparece nos ícones e no "O que você precisa?"
+const COBERTURAS_ODONTO = [
+  { id: "basico",     destaque: true,  icone: "dente",      chip: "Consultas e limpeza", curto: "Básico",   nome: "Consultas, limpeza e urgência 24h", planos: { padrao: "sim", white: "sim", premium: "sim" } },
+  { id: "tratamento", destaque: true,  icone: "dente-trat", chip: "Canal e restauração", curto: "Canal",    nome: "Restauração, canal, siso e gengiva", planos: { padrao: "sim", white: "sim", premium: "sim" } },
+  { id: "raiox",      destaque: false, nome: "Raio-X odontológico", planos: { padrao: "sim", white: "sim", premium: "sim" } },
+  { id: "infantil",   destaque: false, nome: "Atendimento infantil", planos: { padrao: "sim", white: "sim", premium: "sim" } },
+  { id: "docorto",    destaque: false, nome: "Documentação ortodôntica completa", planos: { padrao: "sim", white: "sim", premium: "sim" } },
+  { id: "clareamento",destaque: true,  icone: "brilho",     chip: "Clarear os dentes", curto: "Clarear",  nome: "Clareamento dos dentes", planos: { padrao: "nao", white: "sim", premium: "consulta" } },
+  { id: "placa",      destaque: true,  icone: "lua",        chip: "Placa de bruxismo", curto: "Placa",    nome: "Placa de bruxismo ou de mordida", planos: { padrao: "nao", white: "sim", premium: "sim" } },
+  { id: "aparelho",   destaque: true,  icone: "aparelho",   chip: "Aparelho", curto: "Aparelho", nome: "Aparelho ortodôntico e manutenção", planos: { padrao: "nao", white: "nao", premium: "sim" } },
+  { id: "protese",    destaque: true,  icone: "protese",    chip: "Prótese ou dentadura", curto: "Prótese",  nome: "Próteses e dentadura", planos: { padrao: "nao", white: "nao", premium: "sim" } }
+];
+
 // Ganchos de métricas: funcionam automaticamente se Plausible ou GA4 forem instalados no portal.
 function registrarEvento(nome, dados){
   try{
@@ -694,14 +818,14 @@ const FALLBACK_FAQ_DATA = [
   {cat:"Férias", top:true, q:"Como solicito minhas férias formalmente?", a:"O agendamento é feito pelo seu gestor junto ao RH, com pelo menos 40 dias de antecedência da data de início. Alinhe o período desejado diretamente com seu gestor."},
   {cat:"Férias", q:"Quando o valor das minhas férias é depositado?", a:"O valor das férias é depositado com 2 dias de antecedência da data efetiva de saída."},
   {cat:"Férias", q:"Posso vender parte das minhas férias?", a:"Sim. Você pode vender até 1/3 (10 dias) das suas férias, desde que solicite isso ao seu gestor dentro do prazo de antecedência combinado."},
-  {cat:"Benefícios", top:true, q:"Como funciona o VR/VA (vale refeição e alimentação)?", a:"Colaboradores externos recebem R$ 40,00 por dia no cartão de Vale Refeição (desconto de R$ 32,00 em folha). O Vale Alimentação é de R$ 290,00 mensais (desconto de R$ 1,00 em folha). Ambos são creditados no 1º dia útil do mês, com valor proporcional em caso de admissão no meio do mês."},
+  {cat:"Benefícios", top:true, upd:"2026-10-15", kw:"vale refeicao, vale alimentacao, cartao, 15 dias, admissao, proporcional", q:"Como funciona o VR/VA (vale refeição e alimentação)?", a:"Vale Refeição (VR): colaboradores externos recebem R$ 40,00 por dia trabalhado no cartão de VR, com desconto de R$ 32,00 em folha. O valor é proporcional aos dias trabalhados no mês.\n\nVale Alimentação (VA): R$ 290,00 por mês, com desconto de R$ 1,00 em folha. Para receber o VA, é preciso trabalhar pelo menos 15 dias no mês. Exemplo: quem é admitido no dia 17 não recebe o VA daquele mês.\n\nOs dois benefícios são creditados no 1º dia útil do mês."},
   {cat:"Benefícios", q:"Tenho direito a plano de saúde? A partir de quando?", a:"Sim, a adesão pode ser feita a partir de 90 dias de empresa. O plano é o Bradesco Saúde, com mensalidade de R$ 120,00 mais coparticipação, descontada em folha. O cancelamento por desistência só pode ser feito após 1 ano de contratação."},
   {cat:"Benefícios", q:"Qual o prazo de carência do plano de saúde?", a:"Os prazos de carência do plano de saúde variam conforme o tipo de atendimento: Urgência e Emergência: 24 horas. Consulta e Exames Simples: 30 dias. Terapias (Fisio, Fono, Psico e Nutrição): 180 dias. Exames Complexos: 180 dias. Internação/Cirurgia: 180 dias. Parto: 300 dias. Doenças e lesões Preexistentes: 24 meses. Em caso de dúvida sobre uma condição específica, fale com o RH.", link:{label:"Acessar Portal Zanoni", icon:"🔗", url:"https://portal-zanoni-exemplo.com.br"}},
-  {cat:"Benefícios", q:"Posso incluir dependente no plano de saúde?", a:"Sim, a inclusão de dependentes pode ser feita a partir de 3 meses de empresa."},
-  {cat:"Benefícios", q:"Tenho direito a plano odontológico?", a:"Sim, o plano é o Bradesco Odonto, com mensalidade a partir de R$ 15,00 por pessoa, descontada em folha. As mesmas regras de prazo do plano de saúde se aplicam (90 dias para adesão, 1 ano para cancelamento)."},
-  {cat:"Benefícios", q:"Posso incluir dependente no plano odontológico?", a:"Sim, a inclusão de dependentes no plano odontológico é feita pelo Portal Zanoni.", link:{label:"Acessar Portal Zanoni", icon:"🔗", url:"https://portal-zanoni-exemplo.com.br"}},
-  {cat:"Benefícios", q:"Como funciona o convênio farmácia?", a:"A Wessel disponibiliza o cartão Golden Farma, que pode ser usado em farmácias conveniadas apenas para compra de medicamentos, com limite mensal de R$ 120,00. Os gastos são descontados em folha de pagamento."},
-  {cat:"Benefícios", q:"Posso comprar produtos Wessel com desconto?", a:"Sim, todo colaborador pode adquirir produtos Wessel a preço de custo, conforme lista disponível com o RH. A venda acontece uma vez a cada 2 meses e os pedidos são feitos pelo WhatsApp."},
+  {cat:"Benefícios", upd:"2026-10-15", q:"Posso incluir dependente no plano de saúde?", a:"Não. O plano de saúde é apenas para o colaborador titular, sem inclusão de dependentes. Já no plano odontológico a inclusão de dependentes é permitida."},
+  {cat:"Benefícios", top:false, upd:"2026-10-15", extra:"planos_odonto", kw:"bradesco dental, planos, valores, quanto custa, aparelho, ortodontia, clareamento, protese, dentadura, bruxismo, placa, canal, siso, limpeza, carencia", q:"Tenho direito a plano odontológico? Quais são os planos?", a:"Sim. O plano odontológico é o Bradesco Dental, com três opções a partir de R$ 15,90 por mês por pessoa, descontados em folha. Todos os planos têm carência zero: depois da adesão, você já pode usar.\n\nAs regras de prazo são as mesmas do plano de saúde: adesão a partir de 90 dias de empresa e cancelamento somente após 1 ano.\n\nCompare os planos abaixo e veja qual combina com você."},
+  {cat:"Benefícios", upd:"2026-10-15", q:"Posso incluir dependente no plano odontológico?", a:"Sim. A inclusão de dependentes no plano odontológico é feita pelo Portal Zanoni. O valor do plano é por pessoa, então cada dependente tem a mesma mensalidade do plano escolhido, também descontada em folha. Na pergunta sobre os planos odontológicos você pode simular o valor para a família.", link:{label:"Acessar Portal Zanoni", icon:"🔗", url:"https://portal-zanoni-exemplo.com.br"}},
+  {cat:"Benefícios", upd:"2026-10-15", kw:"golden farma, remedio, medicamento, 3 meses", q:"Como funciona o convênio farmácia?", a:"A Wessel disponibiliza o cartão Golden Farma para quem tem pelo menos 3 meses de empresa. Ele pode ser usado em farmácias conveniadas apenas para compra de medicamentos, com limite mensal de R$ 120,00. Os gastos são descontados em folha de pagamento.\n\nQuem ainda não completou 3 meses de empresa não tem direito ao convênio."},
+  {cat:"Benefícios", upd:"2026-10-15", kw:"carne, produtos, venda, desconto, preco de custo, 3 meses", q:"Posso comprar produtos Wessel com desconto?", a:"Sim, para quem tem pelo menos 3 meses de empresa. Os produtos Wessel são vendidos a preço de custo, conforme lista disponível com o RH. A venda é liberada a cada 2 meses e os pedidos são feitos pelo WhatsApp.\n\nQuem ainda não completou 3 meses de empresa não pode participar da venda."},
   {cat:"Segurança do Trabalho", top:true, q:"O que devo fazer em caso de acidente de trabalho?", a:"Comunique imediatamente a liderança e a equipe de Saúde e Segurança do Trabalho, mesmo que o ferimento pareça leve. A equipe realizará os procedimentos necessários e fornecerá as orientações adequadas."},
   {cat:"Segurança do Trabalho", q:"Como faço para solicitar uma chave reserva do meu armário de uniforme ou do meu armário pessoal?", a:"A solicitação deve ser realizada diretamente com a equipe de Saúde e Segurança do Trabalho. Será disponibilizada uma cópia da chave, quando houver. Caso não exista uma chave reserva, será realizada a troca do miolo da fechadura."},
   {cat:"Segurança do Trabalho", q:"Como faço para retirar um EPI?", a:"Dirija-se à sala da Saúde e Segurança do Trabalho para realizar a assinatura digital da sua Ficha de EPI. Após a assinatura, você estará liberado para retirar o equipamento no Almoxarifado."},
@@ -793,7 +917,11 @@ const SINONIMOS = [
   ["vale alimentacao","va","alimentacao","mercado"],
   ["vale refeicao","vr","refeicao","almoco"],
   ["plano de saude","convenio","convenio medico","plano medico","bradesco saude","medico"],
-  ["odontologico","odonto","dentista","dental","plano odontologico"],
+  ["odontologico","odonto","dentista","dental","plano odontologico","dente","dentes"],
+  ["aparelho","aparelho ortodontico","ortodontia","ortodontico"],
+  ["clareamento","clarear","dente branco","dentes brancos"],
+  ["protese","proteses","dentadura","coroa"],
+  ["bruxismo","placa de mordida","ranger os dentes"],
   ["farmacia","remedio","remedios","medicamento","golden farma"],
   ["atestado","falta","faltar","faltei","doente","afastamento"],
   ["ferias","descanso","folga"],
@@ -906,6 +1034,95 @@ function renderContatos(){
   });
 }
 
+/* ---------- Comparador de planos odontológicos ---------- */
+const ODONTO = { nec: new Set(), dep: 0 };
+const brl = v => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+function planoIndicado(){
+  if(!ODONTO.nec.size) return null;
+  const nec = [...ODONTO.nec].map(id => COBERTURAS_ODONTO.find(c => c.id === id));
+  const total = PLANOS_ODONTO.find(p => nec.every(c => c.planos[p.id] === "sim"));
+  if(total) return { plano: total, parcial: [] };
+  const parcial = PLANOS_ODONTO.find(p => nec.every(c => c.planos[p.id] !== "nao"));
+  if(parcial) return { plano: parcial, parcial: nec.filter(c => c.planos[parcial.id] === "consulta") };
+  return null;
+}
+function planosOdontoHTML(){
+  const destaques = COBERTURAS_ODONTO.filter(c => c.destaque);
+  const ind = planoIndicado();
+  const pessoas = 1 + ODONTO.dep;
+  const menor = Math.min(...PLANOS_ODONTO.map(p => p.preco));
+  const chips = destaques.map(c => `<button type="button" class="od-chip" data-od-nec="${c.id}" aria-pressed="${ODONTO.nec.has(c.id)}" title="${esc(c.nome)}">${icone(c.icone)}<span>${esc(c.chip || c.nome)}</span></button>`).join("");
+  const cards = PLANOS_ODONTO.map((p, i) => {
+    const ant = PLANOS_ODONTO[i - 1];
+    const linhas = !ant
+      ? COBERTURAS_ODONTO.filter(c => c.planos[p.id] === "sim").map(c => `<li>${icone("check")}<span>${esc(c.nome)}</span></li>`).join("")
+      : COBERTURAS_ODONTO.filter(c => c.planos[p.id] !== c.planos[ant.id] && c.planos[p.id] !== "nao").map(c =>
+          c.planos[p.id] === "sim" ? `<li class="novo">${icone("mais")}<span>${esc(c.nome)}</span></li>` : `<li class="obs">${icone("brilho")}<span>${esc(c.nome)}: sob consulta</span></li>`).join("");
+    const eInd = ind && ind.plano.id === p.id;
+    const faltam = ODONTO.nec.size ? destaques.filter(c => ODONTO.nec.has(c.id) && c.planos[p.id] === "nao") : [];
+    const icones = destaques.map(c => {
+      const v = c.planos[p.id];
+      const marcado = ODONTO.nec.has(c.id) ? " marcado" : "";
+      return `<span class="od-ico ${v}${marcado}" title="${esc(c.nome)}: ${v === "sim" ? "incluso" : v === "consulta" ? "sob consulta" : "não incluso"}">${icone(c.icone)}<small>${esc(c.curto)}</small></span>`;
+    }).join("");
+    return `<article class="od-plano${eInd ? " indicado" : ""}${faltam.length ? " nao-cobre" : ""}" aria-label="Plano ${esc(p.nome)}">
+      <div class="od-topo">
+        <div class="od-nome"><strong>${esc(p.nome)}</strong><span>${esc(p.oficial)}</span></div>
+        <div class="od-selos">${eInd ? `<span class="od-selo ind">Indicado para você</span>` : ""}${p.selo ? `<span class="od-selo">${esc(p.selo)}</span>` : ""}</div>
+      </div>
+      <div class="od-preco"><span class="valor">${brl(p.preco)}</span><span class="per">por pessoa ao mês</span></div>
+      <p class="od-dia">Cerca de ${brl(p.preco / 30)} por dia</p>
+      ${ODONTO.dep ? `<p class="od-familia">Você + ${ODONTO.dep} ${ODONTO.dep === 1 ? "dependente" : "dependentes"}: <strong>${brl(p.preco * pessoas)}</strong> por mês</p>` : ""}
+      <div class="od-icones" aria-hidden="true">${icones}</div>
+      ${ant ? `<p class="od-mais">Tudo do plano ${esc(ant.nome)}, e mais:</p>` : `<p class="od-mais">O que está incluso:</p>`}
+      <ul class="od-lista">${linhas}</ul>
+      ${faltam.length ? `<p class="od-falta">Não cobre: ${faltam.map(c => esc(c.curto.toLowerCase())).join(", ")}</p>` : ""}
+    </article>`;
+  }).join("");
+  const tabela = `<table class="od-tabela"><thead><tr><th scope="col">Cobertura</th>${PLANOS_ODONTO.map(p => `<th scope="col">${esc(p.nome)}</th>`).join("")}</tr></thead>
+    <tbody>${COBERTURAS_ODONTO.map(c => `<tr><th scope="row">${esc(c.nome)}</th>${PLANOS_ODONTO.map(p => {
+      const v = c.planos[p.id];
+      return `<td class="${v}">${v === "sim" ? `${icone("check")}<span class="sr-only">Sim</span>` : v === "consulta" ? "Sob consulta" : `<span aria-hidden="true">–</span><span class="sr-only">Não</span>`}</td>`;
+    }).join("")}</tr>`).join("")}
+    <tr class="od-car"><th scope="row">Carência</th>${PLANOS_ODONTO.map(() => `<td>0 dias</td>`).join("")}</tr></tbody></table>`;
+  let resumo = "Marque o que você precisa e o Angus indica o plano.";
+  if(ODONTO.nec.size){
+    resumo = ind
+      ? `O plano <strong>${esc(ind.plano.nome)}</strong> cobre tudo o que você marcou${ind.parcial.length ? ` (${ind.parcial.map(c => esc(c.curto.toLowerCase())).join(", ")} sob consulta)` : ""}, por ${brl(ind.plano.preco * pessoas)} ao mês${pessoas > 1 ? ` para ${pessoas} pessoas` : ""}.`
+      : "Nenhum plano cobre tudo o que você marcou. Fale com o time de Benefícios.";
+  }
+  return `<section class="odonto" aria-label="Comparador de planos odontológicos">
+    <div class="od-cab">
+      <span class="od-titulo">Investir no seu sorriso custa menos do que parece.</span>
+      <div class="od-fatos">
+        <span>${icone("check")}Carência zero</span>
+        <span>${icone("check")}A partir de ${brl(menor)}</span>
+        <span>${icone("check")}Atendimento infantil</span>
+      </div>
+    </div>
+    <div class="od-passo">
+      <span class="od-rot">1. O que você precisa?</span>
+      <div class="od-chips">${chips}</div>
+    </div>
+    <div class="od-passo od-linha">
+      <span class="od-rot" id="odDepRot">2. Vai incluir dependentes?</span>
+      <div class="od-stepper" role="group" aria-labelledby="odDepRot">
+        <button type="button" data-od-dep="-1" aria-label="Menos um dependente"${ODONTO.dep ? "" : " disabled"}>${icone("menos")}</button>
+        <output aria-live="polite">${ODONTO.dep}</output>
+        <button type="button" data-od-dep="1" aria-label="Mais um dependente"${ODONTO.dep >= 8 ? " disabled" : ""}>${icone("mais")}</button>
+      </div>
+    </div>
+    <p class="od-resumo" role="status">${resumo}</p>
+    <div class="od-planos">${cards}</div>
+    <details class="od-detalhes"><summary>Ver tabela completa de coberturas</summary><div class="od-tabela-wrap">${tabela}</div></details>
+    <p class="od-nota">Valores por pessoa, descontados em folha. Dependentes são incluídos pelo Portal Zanoni.</p>
+  </section>`;
+}
+function atualizarOdonto(alvoSel){
+  document.querySelectorAll(".odonto").forEach(el => { el.outerHTML = planosOdontoHTML(); });
+  if(alvoSel){ const b = document.querySelector(".odonto " + alvoSel); if(b && !b.disabled) b.focus({ preventScroll: true }); }
+}
+
 /* ---------- Resultados ---------- */
 function itemHTML(f, mostrarCat){
   const k = chave(f), aberta = estado.aberta === k;
@@ -920,6 +1137,7 @@ function itemHTML(f, mostrarCat){
     </button>
     <div class="qa-a" id="r-${k}"><div><div class="qa-corpo">
       <p>${destacar(f.a, termos)}</p>
+      ${f.extra === "planos_odonto" ? planosOdontoHTML() : ""}
       ${f.upd ? `<span class="data-resp">Atualizada em ${f.upd.toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })}</span>` : ""}
       ${PODE_FALAR ? `<button type="button" class="ouvir" aria-pressed="false">${icone("som")}<span>Ouvir resposta</span></button>` : ""}
       ${f.link ? `<a class="doc-link" href="${esc(f.link.url)}" target="_blank" rel="noopener">${icone("link")}${esc(f.link.label)}</a>` : ""}
@@ -1180,6 +1398,21 @@ document.addEventListener("click", e => {
 
   const rk = e.target.closest(".ranking button, .recentes button, .rel, .sugestoes button[data-chave]");
   if(rk){ fecharSugestoes(); document.activeElement?.blur?.(); return abrirPergunta(rk.dataset.chave); }
+
+  const nec = e.target.closest("[data-od-nec]");
+  if(nec){
+    const id = nec.dataset.odNec;
+    ODONTO.nec.has(id) ? ODONTO.nec.delete(id) : ODONTO.nec.add(id);
+    atualizarOdonto(`[data-od-nec="${id}"]`);
+    registrarEvento("odonto_necessidade", { item: id, marcado: ODONTO.nec.has(id) });
+    return;
+  }
+  const dep = e.target.closest("[data-od-dep]");
+  if(dep){
+    ODONTO.dep = Math.max(0, Math.min(8, ODONTO.dep + Number(dep.dataset.odDep)));
+    atualizarOdonto(`[data-od-dep="${dep.dataset.odDep}"]`);
+    return;
+  }
 
   const termoBtn = e.target.closest(".termo");
   if(termoBtn) return mostrarDica(termoBtn);
@@ -1494,6 +1727,7 @@ async function carregarDados(){
         top: /^(sim|s|x|1|true)$/i.test((r.destaque || "").trim()),
         kw: (r.palavras_chave || "").trim(),
         upd: lerData(r.atualizado_em),
+        extra: (r.componente || "").trim(),
         link: (r.link_label && r.link_url) ? { label: r.link_label.trim(), url: r.link_url.trim() } : null
       }))
       .filter(r => r.cat && r.q && r.a);
@@ -1508,6 +1742,10 @@ async function carregarDados(){
   $("#ola").textContent = saudacao();
   aplicarPrefs(lerPrefs());
   FAQ = await carregarDados();
+  const inativas = CATEGORIAS_INATIVAS.map(norm);
+  FAQ = FAQ.filter(f => !inativas.includes(norm(f.cat)));
+  FAQ.forEach(f => { if(typeof f.upd === "string") f.upd = lerData(f.upd); });
+  if(!MOSTRAR_INDIQUE) document.body.classList.add("sem-indique");
   montarVocabulario();
   if(CENTRAL_URL){
     const a = $("#linkCentral"); a.href = CENTRAL_URL; a.hidden = false;
