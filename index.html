@@ -820,10 +820,10 @@ const FALLBACK_FAQ_DATA = [
   {cat:"Férias", q:"Posso vender parte das minhas férias?", a:"Sim. Você pode vender até 1/3 (10 dias) das suas férias, desde que solicite isso ao seu gestor dentro do prazo de antecedência combinado."},
   {cat:"Benefícios", top:true, upd:"2026-10-15", kw:"vale refeicao, vale alimentacao, cartao, 15 dias, admissao, proporcional", q:"Como funciona o VR/VA (vale refeição e alimentação)?", a:"Vale Refeição (VR): colaboradores externos recebem R$ 40,00 por dia trabalhado no cartão de VR, com desconto de R$ 32,00 em folha. O valor é proporcional aos dias trabalhados no mês.\n\nVale Alimentação (VA): R$ 290,00 por mês, com desconto de R$ 1,00 em folha. Para receber o VA, é preciso trabalhar pelo menos 15 dias no mês. Exemplo: quem é admitido no dia 17 não recebe o VA daquele mês.\n\nOs dois benefícios são creditados no 1º dia útil do mês."},
   {cat:"Benefícios", q:"Tenho direito a plano de saúde? A partir de quando?", a:"Sim, a adesão pode ser feita a partir de 90 dias de empresa. O plano é o Bradesco Saúde, com mensalidade de R$ 120,00 mais coparticipação, descontada em folha. O cancelamento por desistência só pode ser feito após 1 ano de contratação."},
-  {cat:"Benefícios", q:"Qual o prazo de carência do plano de saúde?", a:"Os prazos de carência do plano de saúde variam conforme o tipo de atendimento: Urgência e Emergência: 24 horas. Consulta e Exames Simples: 30 dias. Terapias (Fisio, Fono, Psico e Nutrição): 180 dias. Exames Complexos: 180 dias. Internação/Cirurgia: 180 dias. Parto: 300 dias. Doenças e lesões Preexistentes: 24 meses. Em caso de dúvida sobre uma condição específica, fale com o RH.", link:{label:"Acessar Portal Zanoni", icon:"🔗", url:"https://portal-zanoni-exemplo.com.br"}},
+  {cat:"Benefícios", q:"Qual o prazo de carência do plano de saúde?", a:"Os prazos de carência do plano de saúde variam conforme o tipo de atendimento: Urgência e Emergência: 24 horas. Consulta e Exames Simples: 30 dias. Terapias (Fisio, Fono, Psico e Nutrição): 180 dias. Exames Complexos: 180 dias. Internação/Cirurgia: 180 dias. Parto: 300 dias. Doenças e lesões Preexistentes: 24 meses. Em caso de dúvida sobre uma condição específica, fale com o RH."},
   {cat:"Benefícios", upd:"2026-10-15", q:"Posso incluir dependente no plano de saúde?", a:"Não. O plano de saúde é apenas para o colaborador titular, sem inclusão de dependentes. Já no plano odontológico a inclusão de dependentes é permitida."},
   {cat:"Benefícios", top:false, upd:"2026-10-15", extra:"planos_odonto", kw:"bradesco dental, planos, valores, quanto custa, aparelho, ortodontia, clareamento, protese, dentadura, bruxismo, placa, canal, siso, limpeza, carencia", q:"Tenho direito a plano odontológico? Quais são os planos?", a:"Sim. O plano odontológico é o Bradesco Dental, com três opções a partir de R$ 15,90 por mês por pessoa, descontados em folha. Todos os planos têm carência zero: depois da adesão, você já pode usar.\n\nAs regras de prazo são as mesmas do plano de saúde: adesão a partir de 90 dias de empresa e cancelamento somente após 1 ano.\n\nCompare os planos abaixo e veja qual combina com você."},
-  {cat:"Benefícios", upd:"2026-10-15", q:"Posso incluir dependente no plano odontológico?", a:"Sim. A inclusão de dependentes no plano odontológico é feita pelo Portal Zanoni. O valor do plano é por pessoa, então cada dependente tem a mesma mensalidade do plano escolhido, também descontada em folha. Na pergunta sobre os planos odontológicos você pode simular o valor para a família.", link:{label:"Acessar Portal Zanoni", icon:"🔗", url:"https://portal-zanoni-exemplo.com.br"}},
+  {cat:"Benefícios", upd:"2026-10-16", q:"Posso incluir dependente no plano odontológico?", a:"Sim. Para incluir dependentes no plano odontológico, fale com o time de Benefícios do RH. O valor do plano é por pessoa, então cada dependente tem a mesma mensalidade do plano escolhido, também descontada em folha. Na pergunta sobre os planos odontológicos você pode simular o valor para a família."},
   {cat:"Benefícios", upd:"2026-10-15", kw:"golden farma, remedio, medicamento, 3 meses", q:"Como funciona o convênio farmácia?", a:"A Wessel disponibiliza o cartão Golden Farma para quem tem pelo menos 3 meses de empresa. Ele pode ser usado em farmácias conveniadas apenas para compra de medicamentos, com limite mensal de R$ 120,00. Os gastos são descontados em folha de pagamento.\n\nQuem ainda não completou 3 meses de empresa não tem direito ao convênio."},
   {cat:"Benefícios", upd:"2026-10-15", kw:"carne, produtos, venda, desconto, preco de custo, 3 meses", q:"Posso comprar produtos Wessel com desconto?", a:"Sim, para quem tem pelo menos 3 meses de empresa. Os produtos Wessel são vendidos a preço de custo, conforme lista disponível com o RH. A venda é liberada a cada 2 meses e os pedidos são feitos pelo WhatsApp.\n\nQuem ainda não completou 3 meses de empresa não pode participar da venda."},
   {cat:"Segurança do Trabalho", top:true, q:"O que devo fazer em caso de acidente de trabalho?", a:"Comunique imediatamente a liderança e a equipe de Saúde e Segurança do Trabalho, mesmo que o ferimento pareça leve. A equipe realizará os procedimentos necessários e fornecerá as orientações adequadas."},
@@ -891,7 +891,8 @@ function destacar(texto, termos){
     let idx = base.indexOf(tm);
     while(idx !== -1){
       const antes = base[idx - 1] || " ", depois = base[idx + tm.length] || " ";
-      const borda = tm.length > 3 || (!/[a-z0-9]/.test(antes) && !/[a-z0-9]/.test(depois));
+      const inicio = !/[a-z0-9]/.test(antes);
+      const borda = tm.length > 3 ? inicio : (inicio && !/[a-z0-9]/.test(depois));
       const ini = mapa[idx], fim = mapa[idx + tm.length - 1] + 1;
       if(borda && !/&[a-z#0-9]*$/i.test(seguro.slice(Math.max(0, ini - 6), ini))) faixas.push([ini, fim]);
       idx = base.indexOf(tm, idx + tm.length);
@@ -963,7 +964,8 @@ function gruposDaBusca(termo){
   return grupos;
 }
 function contem(texto, alt){
-  if(alt.length > 3) return texto.includes(alt);
+  // palavras longas: casam no início de uma palavra ("odonto" acha "odontológico", mas "dente" não acha "dependente")
+  if(alt.length > 3) return new RegExp("(^|[^a-z0-9])" + alt).test(texto);
   return new RegExp("(^|[^a-z0-9])" + alt + "([^a-z0-9]|$)").test(texto);
 }
 function pontuar(f, grupos){
@@ -1115,7 +1117,7 @@ function planosOdontoHTML(){
     <p class="od-resumo" role="status">${resumo}</p>
     <div class="od-planos">${cards}</div>
     <details class="od-detalhes"><summary>Ver tabela completa de coberturas</summary><div class="od-tabela-wrap">${tabela}</div></details>
-    <p class="od-nota">Valores por pessoa, descontados em folha. Dependentes são incluídos pelo Portal Zanoni.</p>
+    <p class="od-nota">Valores por pessoa, descontados em folha. Para incluir dependentes, fale com o time de Benefícios.</p>
   </section>`;
 }
 function atualizarOdonto(alvoSel){
