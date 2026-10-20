@@ -523,6 +523,32 @@ mark{background:var(--marca-texto);color:inherit;border-radius:3px;padding:0 2px
 .status-escuro.aberto .ponto{background:#8ee0b0}
 .painel-nota{display:flex;flex-direction:column;gap:6px}
 
+/* ---------- Dicas do Angus ---------- */
+.dicas{margin-top:32px}
+.dicas[hidden]{display:none}
+.dicas-cab{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.dicas-cab img{width:56px;height:56px;border-radius:16px;object-fit:cover;object-position:center top;border:2px solid var(--caramelo);flex:none}
+.dicas-cab .titulo-secao{margin:0}
+.dicas-cab p{margin:2px 0 0;font-size:.875rem;color:var(--suave)}
+.dicas-grade{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:560px){.dicas-grade{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.dica-card{display:flex;gap:14px;align-items:flex-start;background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-md);padding:16px}
+.dica-ico{width:44px;height:44px;border-radius:12px;background:var(--mar);color:var(--caramelo);display:flex;align-items:center;justify-content:center;flex:none}
+.dica-ico .ico{width:22px;height:22px}
+.dica-aa{font-family:var(--display);font-weight:800;font-size:1.0625rem;line-height:1}
+.dica-txt{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+.dica-txt h3{margin:0;font-family:var(--display);font-weight:700;font-size:1.0625rem;line-height:1.25}
+.dica-txt p{margin:0;font-size:.9375rem;line-height:1.45;color:var(--suave)}
+.dica-btn{align-self:flex-start;display:inline-flex;align-items:center;gap:4px;min-height:44px;margin-top:2px;padding:0;border:0;background:none;color:var(--mar-texto);font-weight:700;font-size:.9375rem;cursor:pointer}
+.dica-btn .ico{width:16px;height:16px;transition:transform .15s}
+.dica-btn:hover .ico{transform:translateX(3px)}
+.dica-btn[aria-expanded="true"] .ico{transform:rotate(90deg)}
+.dica-passos{display:flex;flex-direction:column;gap:6px;background:var(--fundo);border-radius:10px;padding:10px 12px}
+.dica-passos[hidden]{display:none}
+.dica-passos p{font-size:.875rem;color:var(--tinta)}
+.ouvir.destaque-dica{border-color:var(--caramelo);box-shadow:0 0 0 4px rgba(201,162,75,.35);animation:pulso-dica 1s ease-in-out 3}
+@keyframes pulso-dica{50%{box-shadow:0 0 0 8px rgba(201,162,75,.15)}}
+
 /* ---------- Rodapé ---------- */
 footer{padding:8px 0 40px;text-align:center;color:var(--suave);font-size:0.8125rem;display:flex;flex-direction:column;gap:2px}
 
@@ -571,6 +597,7 @@ footer{padding:8px 0 40px;text-align:center;color:var(--suave);font-size:0.8125r
     <symbol id="i-seguranca" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
     <symbol id="i-indique" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></symbol>
     <symbol id="i-som" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-celular" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
     <symbol id="i-casa" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
     <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></symbol>
     <symbol id="i-grade" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
@@ -595,7 +622,6 @@ footer{padding:8px 0 40px;text-align:center;color:var(--suave);font-size:0.8125r
       <span class="spacer"></span>
       <a class="top-central" id="linkCentral" href="#" hidden aria-label="Voltar para a Central do Colaborador"><svg class="ico"><use href="#i-casa"/></svg><span>Central do Colaborador</span></a>
       <a class="top-link" href="#assuntos" id="linkAssuntos">Assuntos</a>
-      <a class="top-link" href="#" id="linkIndique">Indique um Talento</a>
       <div class="pref">
         <button type="button" class="btn-pref" id="btnPref" aria-expanded="false" aria-controls="painelPref" aria-label="Tamanho do texto e aparência"><span aria-hidden="true">Aa</span></button>
         <div class="painel-pref" id="painelPref" hidden role="dialog" aria-label="Tamanho do texto e aparência">
@@ -670,6 +696,13 @@ footer{padding:8px 0 40px;text-align:center;color:var(--suave);font-size:0.8125r
         <h2 class="titulo-secao" id="tAssuntos">Assuntos</h2>
         <div class="cartao assuntos-cartao"><ul class="assuntos" id="listaAssuntos"></ul></div>
       </section>
+      <section id="dicas" class="dicas" aria-labelledby="tDicas">
+        <div class="dicas-cab">
+          <img id="dicasAngus" alt="" width="56" height="56">
+          <div><h2 class="titulo-secao" id="tDicas">Dicas do Angus</h2><p>Recursos que deixam o Bússola RH mais fácil de usar.</p></div>
+        </div>
+        <div class="dicas-grade" id="listaDicas"></div>
+      </section>
       <section id="resultados" hidden aria-live="polite"></section>
     </div>
 
@@ -684,13 +717,6 @@ footer{padding:8px 0 40px;text-align:center;color:var(--suave);font-size:0.8125r
       </div>
     </section>
 
-    <div class="area-indique">
-      <a class="cartao indique" id="cartaoIndique" href="#">
-        <span class="badge"><svg class="ico"><use href="#i-indique"/></svg></span>
-        <span class="txt"><strong>Indique um Talento</strong><span class="d">Conhece alguém para trabalhar na Wessel? Saiba como indicar.</span></span>
-        <span class="ir" aria-hidden="true"><svg class="ico"><use href="#i-seta"/></svg></span>
-      </a>
-    </div>
   </div>
 </main>
 
@@ -1066,15 +1092,7 @@ function renderContatos(){
   $("#listaAreas").innerHTML = html;
   $("#painelAreas").innerHTML = html;
   atualizarStatusRH();
-  const ind = (CONTACTS["Indique um Talento"] || EXTRA_AREAS[0]);
   $("#atualizado").textContent = "Conteúdo atualizado em " + formatarData(DATA_CONTEUDO || ULTIMA_ATUALIZACAO);
-  const temIndique = FAQ.some(f => f.cat === "Indique um Talento");
-  [$("#cartaoIndique"), $("#linkIndique")].forEach(el => {
-    el.addEventListener("click", e => {
-      if(temIndique){ e.preventDefault(); abrirCategoria("Indique um Talento"); }
-      else { el.href = waLink(ind.number, INDIQUE_MSG); el.target = "_blank"; }
-    });
-  });
 }
 
 /* ---------- Comparador de planos odontológicos ---------- */
@@ -1353,6 +1371,7 @@ function render(){
   const emResultado = !!(estado.cat || estado.termo.trim().length >= 2);
   document.body.classList.toggle("em-resultado", emResultado);
   $("#assuntos").hidden = emResultado;
+  $("#dicas").hidden = emResultado;
   $("#resultados").hidden = !emResultado;
   if(emResultado) renderResultados(); else renderRecentes();
   document.querySelectorAll(".nav-inferior [data-nav]").forEach(b => {
@@ -1467,6 +1486,9 @@ document.addEventListener("click", e => {
     atualizarOdonto(`[data-od-dep="${dep.dataset.odDep}"]`);
     return;
   }
+
+  const dica = e.target.closest("[data-dica]");
+  if(dica){ e.stopPropagation(); return acaoDica(dica.dataset.dica, dica); }
 
   const termoBtn = e.target.closest(".termo");
   if(termoBtn) return mostrarDica(termoBtn);
@@ -1767,6 +1789,57 @@ document.addEventListener("click", e => {
   registrarEvento("contato_whatsapp", { area: a.dataset.waArea, categoria: estado.cat || "", pergunta: (estado.aberta && FAQ.find(x => chave(x) === estado.aberta)?.q) || "", termo: estado.termo.trim() });
 }, true);
 
+/* ---------- Dicas do Angus ---------- */
+function renderDicas(){
+  const angus = $(".hero-angus img");
+  if(angus) $("#dicasAngus").src = angus.src;
+  const dicas = [
+    Reconhecedor
+      ? { id: "voz", icone: "mic", titulo: "Pergunte falando", texto: "Toque no microfone da busca e fale a sua dúvida, do jeito que você perguntaria a um colega.", botao: "Experimentar agora" }
+      : { id: "voz", icone: "mic", titulo: "Pergunte falando", texto: "Abra o Bússola RH pelo Chrome do celular e toque no microfone da busca para perguntar falando." },
+    PODE_FALAR
+      ? { id: "ouvir", icone: "som", titulo: "Ouça as respostas", texto: "Toda resposta tem o botão Ouvir resposta: o celular lê o texto em voz alta para você.", botao: "Ver um exemplo" }
+      : { id: "ouvir", icone: "som", titulo: "Ouça as respostas", texto: "Abra o Bússola RH pelo Chrome do celular para ouvir as respostas em voz alta." },
+    { id: "letra", texto_icone: "Aa", titulo: "Aumente a letra", texto: "No botão Aa, no alto da página, você deixa o texto maior e escolhe entre o modo claro e o escuro.", botao: "Ajustar agora" },
+    { id: "atalho", icone: "celular", titulo: "Deixe na tela do celular", texto: "Crie um atalho e abra o Bússola RH direto da tela inicial, como um aplicativo.", botao: "Ver como fazer",
+      extra: `<div class="dica-passos" hidden id="passosAtalho">
+        <p><strong>Android (Chrome):</strong> toque nos três pontinhos no canto superior e depois em <strong>Adicionar à tela inicial</strong>.</p>
+        <p><strong>iPhone (Safari):</strong> toque no botão Compartilhar e depois em <strong>Adicionar à Tela de Início</strong>.</p>
+      </div>` }
+  ];
+  $("#listaDicas").innerHTML = dicas.map(d => `<article class="dica-card">
+      <span class="dica-ico">${d.icone ? icone(d.icone) : `<span class="dica-aa" aria-hidden="true">${d.texto_icone}</span>`}</span>
+      <div class="dica-txt">
+        <h3>${d.titulo}</h3>
+        <p>${d.texto}</p>
+        ${d.botao ? `<button type="button" class="dica-btn" data-dica="${d.id}"${d.id === "atalho" ? ` aria-expanded="false" aria-controls="passosAtalho"` : ""}>${d.botao}${icone("seta")}</button>` : ""}
+        ${d.extra || ""}
+      </div>
+    </article>`).join("");
+}
+function acaoDica(id, btn){
+  registrarEvento("dica", { item: id });
+  if(id === "voz"){
+    const mic = $(".hero-busca .mic");
+    $(".hero-busca").scrollIntoView({ behavior: "smooth", block: "center" });
+    if(mic && !mic.hidden) ouvirVoz(mic);
+  } else if(id === "ouvir"){
+    const alvo = FAQ.find(f => f.top) || FAQ[0];
+    abrirPergunta(chave(alvo));
+    setTimeout(() => {
+      const b = document.querySelector(".qa.aberta .ouvir");
+      if(b){ b.classList.add("destaque-dica"); setTimeout(() => b.classList.remove("destaque-dica"), 3500); }
+    }, 700);
+  } else if(id === "letra"){
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => { alternarPref(true); $("#painelPref .segmentos button")?.focus({ preventScroll: true }); }, 350);
+  } else if(id === "atalho"){
+    const passos = $("#passosAtalho"), abrir = passos.hidden;
+    passos.hidden = !abrir;
+    btn.setAttribute("aria-expanded", String(abrir));
+  }
+}
+
 /* ---------- Barra inferior ---------- */
 function navegarInferior(n){
   if(n === "inicio"){ if(estado.cat || estado.termo.trim()) voltarInicio(); else window.scrollTo({ top: 0, behavior: "smooth" }); }
@@ -1881,13 +1954,14 @@ async function carregarDados(){
   const inativas = CATEGORIAS_INATIVAS.map(norm);
   FAQ = FAQ.filter(f => !inativas.includes(norm(f.cat)));
   FAQ.forEach(f => { if(typeof f.upd === "string") f.upd = lerData(f.upd); });
-  if(!MOSTRAR_INDIQUE) document.body.classList.add("sem-indique");
+  document.body.classList.add("sem-indique");
   montarVocabulario();
   if(CENTRAL_URL){
     const a = $("#linkCentral"); a.href = CENTRAL_URL; a.hidden = false;
   }
   renderRanking();
   renderAssuntos();
+  renderDicas();
   renderContatos();
   // link direto para um assunto, ex.: .../#ferias
   const h = decodeURIComponent(location.hash.slice(1));
