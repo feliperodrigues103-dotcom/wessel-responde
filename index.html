@@ -62,7 +62,7 @@ body{
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
 img{max-width:100%;display:block}
-button,input{font:inherit;color:inherit}
+button,input,textarea{font:inherit;color:inherit}
 a{color:var(--brasa-texto)}
 :focus-visible{outline:3px solid var(--caramelo);outline-offset:2px;border-radius:6px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -386,7 +386,7 @@ mark{background:var(--marca-texto);color:inherit;border-radius:3px;padding:0 2px
 .recentes .c{font-size:0.8125rem;color:var(--suave)}
 
 /* ---------- Aviso rápido ---------- */
-.aviso{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);z-index:70;
+.aviso{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);z-index:100;display:flex;align-items:center;gap:10px;
   background:#111111;color:#fff;font-size:0.875rem;font-weight:600;padding:12px 16px;border-radius:12px;max-width:calc(100vw - 32px);
   opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;text-align:center}
 .aviso.visivel{opacity:1;transform:translate(-50%,0)}
@@ -421,7 +421,7 @@ mark{background:var(--marca-texto);color:inherit;border-radius:3px;padding:0 2px
 .termo{display:inline;border:0;background:none;padding:0;margin:0;font:inherit;color:inherit;cursor:help;
   text-decoration:underline dotted var(--caramelo);text-decoration-thickness:2px;text-underline-offset:4px}
 .termo:hover,.termo[aria-expanded="true"]{color:var(--mar-texto)}
-.dica{position:fixed;z-index:80;width:min(300px,calc(100vw - 32px));background:var(--papel);color:var(--tinta);border:1px solid var(--linha);
+.dica{position:fixed;z-index:95;width:min(300px,calc(100vw - 32px));background:var(--papel);color:var(--tinta);border:1px solid var(--linha);
   border-top:4px solid var(--caramelo);border-radius:14px;box-shadow:0 18px 44px rgba(17,17,17,.28);padding:14px 16px}
 .dica[hidden]{display:none}
 .dica strong{display:block;font-family:var(--display);font-size:1.05rem;margin-bottom:4px}
@@ -549,6 +549,151 @@ mark{background:var(--marca-texto);color:inherit;border-radius:3px;padding:0 2px
 .ouvir.destaque-dica{border-color:var(--caramelo);box-shadow:0 0 0 4px rgba(201,162,75,.35);animation:pulso-dica 1s ease-in-out 3}
 @keyframes pulso-dica{50%{box-shadow:0 0 0 8px rgba(201,162,75,.15)}}
 
+/* ---------- Sugira uma pergunta ---------- */
+.sugerir-sec{margin-top:24px}
+.sugerir-sec[hidden]{display:none}
+.sugestao{display:flex;flex-direction:column;gap:10px;background:var(--papel);border:1px dashed var(--caramelo);border-radius:var(--r-md);padding:16px}
+.resultados-vazio-gap,.vazio + .sugestao{margin-top:12px}
+.sug-cab{display:flex;gap:12px;align-items:flex-start}
+.sug-cab div{display:flex;flex-direction:column;gap:2px}
+.sug-cab strong{font-family:var(--display);font-size:1.0625rem}
+.sug-cab span{font-size:.875rem;color:var(--suave);line-height:1.45}
+.sug-ico{width:40px;height:40px;border-radius:12px;background:var(--fundo);color:var(--caramelo);display:flex;align-items:center;justify-content:center;flex:none}
+.sug-ico .ico{width:22px;height:22px}
+.sugestao textarea{width:100%;resize:vertical;min-height:64px;border:1px solid var(--linha);border-radius:12px;padding:10px 12px;background:var(--campo);color:var(--tinta);font-size:1rem;line-height:1.45}
+.sugestao textarea::placeholder{color:var(--suave)}
+.sugestao textarea:focus{outline:none;border-color:var(--mar-texto)}
+.sugestao textarea.erro{border-color:var(--brasa-texto)}
+.sug-rodape{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sug-aviso{font-size:.8125rem;color:var(--suave)}
+.sug-enviar{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 18px;border:0;border-radius:999px;background:var(--mar-texto);color:var(--papel);font-weight:700;font-size:.9375rem;cursor:pointer}
+.sug-enviar .ico{width:17px;height:17px}
+.sug-ok{margin:0;display:flex;align-items:center;gap:8px;font-weight:700;color:var(--ok);font-size:.9375rem}
+.sug-ok[hidden]{display:none}
+.sug-ok .ico{width:18px;height:18px}
+
+
+/* ---------- Atalhos de busca e botão de conversa ---------- */
+.hero-busca .sugestoes{top:64px}
+@media (min-width:1024px){.hero-busca .sugestoes{top:72px}}
+.atalhos{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+@media (max-width:699.98px){
+  .atalhos{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:12px -20px 0;padding:0 20px 2px}
+  .atalhos::-webkit-scrollbar{display:none}
+}
+.atalhos-rot{font-size:.8125rem;font-weight:600;color:var(--sobre-mar);white-space:nowrap;flex:none}
+.atalho{flex:none;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.07);color:#fff;font-weight:600;font-size:.875rem;cursor:pointer;white-space:nowrap}
+.atalho:hover{border-color:var(--caramelo);background:rgba(255,255,255,.12)}
+.btn-conversar{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:8px;padding:0;border:0;background:none;color:var(--sobre-mar);font-size:.9375rem;cursor:pointer;text-align:left}
+.btn-conversar strong{color:var(--caramelo)}
+.btn-conversar .ico{width:20px;height:20px;color:var(--caramelo);flex:none}
+.btn-conversar:hover strong{text-decoration:underline;text-underline-offset:4px}
+
+/* ---------- Lista de perguntas (celular e computador) ---------- */
+.md-lista{display:flex;flex-direction:column}
+.md-item{width:100%;display:flex;align-items:center;gap:12px;min-height:64px;padding:14px 16px;border:0;background:transparent;text-align:left;cursor:pointer;color:var(--tinta)}
+.md-item + .md-item{border-top:1px solid var(--linha)}
+.md-item:hover{background:var(--hover)}
+.md-item .txt{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.md-item .q{font-weight:600;line-height:1.4}
+.md-item .seta{color:var(--suave);flex:none}
+.md-item.ativo{background:var(--fundo);box-shadow:inset 4px 0 0 var(--caramelo)}
+.md-item.ativo .seta{color:var(--tinta)}
+.md-item .tag,.det-cab .tag,.folha .tag{font-size:.78rem;font-weight:700;color:var(--brasa-texto)}
+.md{display:grid;gap:20px}
+@media (min-width:1024px){
+  .md{grid-template-columns:minmax(300px,380px) minmax(0,1fr);align-items:start;gap:24px}
+  .md-detalhe{position:sticky;top:80px;max-height:calc(100vh - 96px);overflow:auto;display:flex;flex-direction:column;gap:16px;scrollbar-width:thin;border-radius:16px}
+  .md-detalhe .escalar{margin-top:0}
+  body.em-resultado.tem-md .layout{grid-template-columns:minmax(0,1fr);grid-template-areas:"principal"}
+  body.em-resultado.tem-md .area-contato{display:none}
+}
+.qa.aberta.qa-detalhe,.qa.aberta.qa-folha{border:1px solid var(--linha);margin:0}
+.det-cab{padding:18px 16px 8px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.det-cab h3{margin:0;font-family:var(--display);font-weight:700;font-size:1.375rem;line-height:1.3}
+.qa-detalhe .qa-corpo{padding-top:6px}
+
+/* ---------- Camadas ---------- */
+.camada-fundo{position:fixed;inset:0;z-index:68;background:rgba(0,0,0,.45);opacity:0;transition:opacity .25s}
+.camada-fundo.visivel{opacity:1}
+.camada-fundo[hidden]{display:none}
+body.com-camada{overflow:hidden}
+
+/* ---------- Folha da resposta (celular) ---------- */
+.folha{position:fixed;left:0;right:0;bottom:0;z-index:70;max-height:90vh;max-height:90dvh;display:flex;flex-direction:column;background:var(--papel);border-radius:22px 22px 0 0;
+  box-shadow:0 -12px 40px rgba(0,0,0,.25);transform:translateY(100%);transition:transform .3s cubic-bezier(.2,.8,.2,1);padding-bottom:env(safe-area-inset-bottom,0px)}
+.folha.aberta{transform:none}
+.folha.arrastando{transition:none}
+.folha[hidden]{display:none}
+.folha-topo{padding:8px 12px 12px 16px;border-bottom:1px solid var(--linha);touch-action:none;cursor:grab;flex:none}
+.folha-alca{display:block;width:44px;height:5px;border-radius:99px;background:var(--linha);margin:0 auto 10px}
+.folha-cab{display:flex;align-items:flex-start;gap:10px}
+.folha-tit{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.folha-tit h3{margin:0;font-family:var(--display);font-weight:700;font-size:1.1875rem;line-height:1.3}
+.folha-fechar,.chat-fechar{width:44px;height:44px;flex:none;border-radius:999px;border:0;background:var(--fundo);color:var(--tinta);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.folha-corpo{overflow:auto;overscroll-behavior:contain;padding:0 0 20px;flex:1}
+.qa.aberta.qa-folha{border:0;background:transparent;border-radius:0}
+.qa-folha .qa-corpo{padding:14px 16px 16px}
+.folha-corpo .escalar{margin:4px 16px 0}
+
+/* ---------- Conversa com o Angus ---------- */
+.chat{position:fixed;inset:0;z-index:72;display:flex;flex-direction:column;background:var(--fundo);opacity:0;transform:translateY(24px);transition:opacity .25s,transform .3s cubic-bezier(.2,.8,.2,1)}
+.chat.aberta{opacity:1;transform:none}
+.chat[hidden]{display:none}
+@media (min-width:700px){
+  .chat{top:16px;bottom:16px;right:16px;left:auto;width:min(420px,calc(100vw - 32px));border-radius:22px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35);transform:translateX(24px)}
+}
+.chat-cab{display:flex;align-items:center;gap:12px;padding:12px 12px 12px 16px;padding-top:calc(12px + env(safe-area-inset-top,0px));background:var(--mar);color:#fff;flex:none}
+.chat-avatar{width:44px;height:44px;border-radius:999px;object-fit:cover;object-position:center top;border:2px solid var(--caramelo);flex:none;background:#2a2a2a}
+.chat-tit{display:flex;flex-direction:column;flex:1;min-width:0}
+.chat-tit strong{font-family:var(--display);font-size:1.125rem}
+.chat-tit span{font-size:.8125rem;color:var(--sobre-mar)}
+.chat-fechar{background:transparent;color:#fff}
+.chat-fechar:hover{background:var(--mar-2)}
+.chat-msgs{flex:1;overflow:auto;overscroll-behavior:contain;padding:16px;display:flex;flex-direction:column;gap:10px}
+.msg{display:flex;gap:8px;align-items:flex-end;max-width:90%;animation:msg-entra .25s ease-out both}
+@keyframes msg-entra{from{opacity:0;transform:translateY(8px)}}
+.msg.angus{align-self:flex-start}
+.msg.eu{align-self:flex-end}
+.msg-avatar{width:32px;height:32px;border-radius:999px;object-fit:cover;object-position:center top;border:1.5px solid var(--caramelo);flex:none;background:#2a2a2a}
+.msg-bolha{padding:10px 14px;font-size:.9375rem;line-height:1.5;border-radius:18px 18px 18px 6px;background:var(--papel);border:1px solid var(--linha);color:var(--tinta)}
+.msg.eu .msg-bolha{background:var(--mar-texto);border-color:var(--mar-texto);color:var(--papel);border-radius:18px 18px 6px 18px}
+.msg-rot{display:block;font-size:.8125rem;color:var(--suave)}
+.msg-q{display:block;font-family:var(--display);font-size:1rem;margin:2px 0 6px}
+.msg-a{display:block}
+.bolha-btn{margin-top:10px}
+.digitando{display:inline-flex;gap:4px;padding:4px 0}
+.digitando i{width:7px;height:7px;border-radius:999px;background:var(--suave);animation:digita 1s infinite ease-in-out}
+.digitando i:nth-child(2){animation-delay:.15s}
+.digitando i:nth-child(3){animation-delay:.3s}
+@keyframes digita{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}
+.chat-opcoes{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 10px;max-height:38vh;overflow:auto;flex:none}
+.chat-opcoes:empty{display:none}
+.opc{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:8px 14px;border-radius:999px;border:1px solid var(--linha);background:var(--papel);color:var(--tinta);font-weight:600;font-size:.875rem;line-height:1.3;cursor:pointer;text-align:left;text-decoration:none}
+.opc:hover{border-color:var(--mar-texto)}
+.opc-dest{background:var(--mar-texto);border-color:var(--mar-texto);color:var(--papel)}
+.opc-wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.opc-wa:hover{background:var(--wa-hover);border-color:var(--wa-hover)}
+.opc .ico{width:16px;height:16px}
+.chat-entrada{display:flex;align-items:center;gap:8px;padding:10px 12px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--linha);background:var(--papel);flex:none}
+.chat-entrada input{flex:1;min-width:0;height:48px;border-radius:999px;border:1px solid var(--linha);padding:0 16px;background:var(--campo);color:var(--tinta);font-size:1rem}
+.chat-entrada input:focus{outline:none;border-color:var(--mar-texto)}
+.chat-mic,.chat-enviar{width:48px;height:48px;flex:none;border-radius:999px;border:0;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.chat-mic{background:var(--fundo);color:var(--mar-texto)}
+.chat-mic[hidden]{display:none}
+.chat-mic.ouvindo{background:var(--brasa);color:#fff;animation:pulso 1.2s ease-in-out infinite}
+.chat-enviar{background:var(--mar-texto);color:var(--papel)}
+
+/* ---------- Expressões do Angus ---------- */
+.vazio-angus{width:64px;height:64px;border-radius:16px;object-fit:cover;object-position:center top;border:2px solid var(--caramelo);margin-bottom:6px}
+.aviso-angus{width:30px;height:30px;border-radius:999px;object-fit:cover;object-position:center top;border:1.5px solid var(--caramelo);flex:none}
+img.pose-simulada[data-anim="acenando"]{animation:angus-acena 1.4s ease-in-out 1;transform-origin:50% 90%}
+img.pose-simulada[data-anim="pensando"]{animation:angus-pensa 2.6s ease-in-out infinite;transform-origin:50% 90%}
+img.pose-simulada[data-anim="comemorando"]{animation:angus-comemora .9s ease-out 2}
+@keyframes angus-acena{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(6deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(2deg)}}
+@keyframes angus-pensa{0%,100%{transform:rotate(0)}50%{transform:rotate(-5deg) translateY(-1px)}}
+@keyframes angus-comemora{0%,100%{transform:translateY(0) scale(1)}35%{transform:translateY(-7px) scale(1.06)}65%{transform:translateY(0) scale(.98)}}
+
 /* ---------- Rodapé ---------- */
 footer{padding:8px 0 40px;text-align:center;color:var(--suave);font-size:0.8125rem;display:flex;flex-direction:column;gap:2px}
 
@@ -598,6 +743,8 @@ footer{padding:8px 0 40px;text-align:center;color:var(--suave);font-size:0.8125r
     <symbol id="i-indique" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></symbol>
     <symbol id="i-som" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></symbol>
     <symbol id="i-celular" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-aviao" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></symbol>
+    <symbol id="i-ideia" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1.1 2V16h5v-.2c.1-.8.5-1.5 1.1-2A6 6 0 0 0 12 3z"/></symbol>
     <symbol id="i-casa" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
     <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></symbol>
     <symbol id="i-grade" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
@@ -657,6 +804,8 @@ footer{padding:8px 0 40px;text-align:center;color:var(--suave);font-size:0.8125r
           <button type="submit">Buscar</button>
         </label>
         <ul class="sugestoes" id="sugestoesPrincipal" role="listbox" hidden></ul>
+        <div class="atalhos" id="atalhosBusca" aria-label="Buscas rápidas"></div>
+        <button type="button" class="btn-conversar" data-abre-chat><svg class="ico"><use href="#i-chat"/></svg><span>Prefere conversar? <strong>Pergunte ao Angus</strong></span></button>
       </form>
     </div>
   </div>
@@ -698,11 +847,12 @@ footer{padding:8px 0 40px;text-align:center;color:var(--suave);font-size:0.8125r
       </section>
       <section id="dicas" class="dicas" aria-labelledby="tDicas">
         <div class="dicas-cab">
-          <img id="dicasAngus" alt="" width="56" height="56">
+          <img id="dicasAngus" class="angus-img" data-pose="padrao" alt="" width="56" height="56">
           <div><h2 class="titulo-secao" id="tDicas">Dicas do Angus</h2><p>Recursos que deixam o Bússola RH mais fácil de usar.</p></div>
         </div>
         <div class="dicas-grade" id="listaDicas"></div>
       </section>
+      <section id="sugerir" class="sugerir-sec" aria-label="Sugira uma pergunta"></section>
       <section id="resultados" hidden aria-live="polite"></section>
     </div>
 
@@ -731,6 +881,32 @@ footer{padding:8px 0 40px;text-align:center;color:var(--suave);font-size:0.8125r
   <button type="button" data-nav="buscar"><svg class="ico"><use href="#i-busca"/></svg><span>Buscar</span></button>
   <button type="button" data-abre-painel aria-controls="painel" aria-expanded="false" class="nav-wa"><svg class="ico"><use href="#i-chat"/></svg><span>Falar com RH</span></button>
 </nav>
+<div class="camada-fundo" id="camadaFundo" hidden></div>
+<div class="folha" id="folha" role="dialog" aria-modal="true" aria-labelledby="folhaTitulo" hidden>
+  <div class="folha-topo" id="folhaTopo">
+    <span class="folha-alca" aria-hidden="true"></span>
+    <div class="folha-cab">
+      <div class="folha-tit"><span class="tag" id="folhaTag"></span><h3 id="folhaTitulo"></h3></div>
+      <button type="button" class="folha-fechar" data-fecha-camada aria-label="Fechar resposta"><svg class="ico"><use href="#i-fechar"/></svg></button>
+    </div>
+  </div>
+  <div class="folha-corpo" id="folhaCorpo"></div>
+</div>
+<div class="chat" id="chat" role="dialog" aria-modal="true" aria-labelledby="chatTitulo" hidden>
+  <div class="chat-cab">
+    <img class="chat-avatar angus-img" data-pose="padrao" alt="">
+    <div class="chat-tit"><strong id="chatTitulo">Angus</strong><span>Respostas do Bússola RH</span></div>
+    <button type="button" class="chat-fechar" data-fecha-camada aria-label="Fechar conversa"><svg class="ico"><use href="#i-fechar"/></svg></button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs" role="log" aria-live="polite"></div>
+  <div class="chat-opcoes" id="chatOpcoes"></div>
+  <form class="chat-entrada" id="chatForm" autocomplete="off">
+    <label class="sr-only" for="chatCampo">Escreva a sua dúvida</label>
+    <input id="chatCampo" type="text" enterkeyhint="send" maxlength="160" placeholder="Escreva a sua dúvida">
+    <button type="button" class="chat-mic" hidden aria-label="Falar a sua dúvida"><svg class="ico"><use href="#i-mic"/></svg></button>
+    <button type="submit" class="chat-enviar" aria-label="Enviar"><svg class="ico"><use href="#i-aviao"/></svg></button>
+  </form>
+</div>
 <div class="dica" id="dica" role="dialog" hidden></div>
 <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
 <div class="painel" id="painel" role="dialog" aria-modal="false" aria-labelledby="painelTitulo">
@@ -818,6 +994,13 @@ const GLOSSARIO = [
   { termos: ["CTPS"], sigla: true, titulo: "CTPS", texto: "Carteira de Trabalho e Previdência Social. Hoje ela é digital e fica no aplicativo Carteira de Trabalho Digital." },
   { termos: ["PAT"], sigla: true, titulo: "PAT", texto: "Posto de Atendimento ao Trabalhador, serviço público que divulga vagas de emprego na região." }
 ];
+
+// Atalhos de busca abaixo do campo. Atualize com os termos mais buscados da planilha de métricas.
+const ATALHOS_BUSCA = ["Holerite", "Férias", "Atestado", "Plano de saúde", "Adiantamento", "Horas extras"];
+
+// Expressões do Angus: envie as imagens para o GitHub, na mesma pasta do index.html, com estes nomes.
+// Enquanto uma imagem não existir, o portal usa a imagem padrão com uma animação leve.
+const ANGUS_POSES = { acenando: "angus-acenando.webp", pensando: "angus-pensando.webp", comemorando: "angus-comemorando.webp" };
 
 // Planos odontológicos (Bradesco Dental). Valores mensais por pessoa.
 const PLANOS_ODONTO = [
@@ -1185,18 +1368,38 @@ function atualizarOdonto(alvoSel){
 }
 
 /* ---------- Resultados ---------- */
+const eRecente = f => f.upd && (Date.now() - f.upd.getTime()) < DIAS_SELO * 864e5;
 function itemHTML(f, mostrarCat){
   const k = chave(f), aberta = estado.aberta === k;
   const termos = DESTAQUES.get(k) || [];
-  const recente = f.upd && (Date.now() - f.upd.getTime()) < DIAS_SELO * 864e5;
-  const url = location.origin + location.pathname + "#" + slug(f.cat);
-  const compartilhar = `https://wa.me/?text=${encodeURIComponent(`*${f.q}*\n\n${f.a}\n\nVeja mais no Bússola RH: ${url}`)}`;
+  const recente = eRecente(f);
   return `<article class="qa${aberta ? " aberta" : ""}" id="qa-${k}" data-chave="${k}">
     <button type="button" class="qa-q" aria-expanded="${aberta}" aria-controls="r-${k}">
       <span class="txt">${mostrarCat ? `<span class="tag">${esc(f.cat)}</span>` : ""}<span class="q">${destacar(f.q, termos)}</span>${recente ? `<span class="selo">Atualizada recentemente</span>` : ""}</span>
       <span class="seta">${icone("abaixo")}</span>
     </button>
-    <div class="qa-a" id="r-${k}"><div><div class="qa-corpo">
+    <div class="qa-a" id="r-${k}"><div>${corpoHTML(f, termos)}</div></div>
+  </article>`;
+}
+// item de lista (celular e computador): toque abre a folha ou o painel ao lado
+function itemListaHTML(f, mostrarCat, ativo){
+  const k = chave(f), termos = DESTAQUES.get(k) || [];
+  return `<button type="button" class="md-item${ativo ? " ativo" : ""}" data-md="${k}" aria-current="${ativo ? "true" : "false"}">
+    <span class="txt">${mostrarCat ? `<span class="tag">${esc(f.cat)}</span>` : ""}<span class="q">${destacar(f.q, termos)}</span>${eRecente(f) ? `<span class="selo">Atualizada recentemente</span>` : ""}</span>
+    <span class="seta">${icone("seta")}</span>
+  </button>`;
+}
+function detalheHTML(f){
+  const k = chave(f), termos = DESTAQUES.get(k) || [];
+  return `<article class="qa aberta qa-detalhe" data-chave="${k}">
+    <div class="det-cab"><span class="tag">${esc(f.cat)}</span><h3>${destacar(f.q, termos)}</h3>${eRecente(f) ? `<span class="selo">Atualizada recentemente</span>` : ""}</div>
+    ${corpoHTML(f, termos)}
+  </article>`;
+}
+function corpoHTML(f, termos){
+  const url = location.origin + location.pathname + "#" + slug(f.cat);
+  const compartilhar = `https://wa.me/?text=${encodeURIComponent(`*${f.q}*\n\n${f.a}\n\nVeja mais no Bússola RH: ${url}`)}`;
+  return `<div class="qa-corpo">
       <p>${destacar(f.a, termos)}</p>
       ${f.extra === "planos_odonto" ? planosOdontoHTML() : ""}
       ${f.upd ? `<span class="data-resp">Atualizada em ${f.upd.toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" })}</span>` : ""}
@@ -1216,8 +1419,7 @@ function itemHTML(f, mostrarCat){
       </div>
       <span class="obrigado" role="status">Obrigado pelo retorno! Ele ajuda o RH a melhorar as respostas.</span>
       ${relacionadasHTML(f)}
-    </div></div></div>
-  </article>`;
+    </div>`;
 }
 function escalarHTML(){
   if(estado.cat && CONTACTS[estado.cat]){
@@ -1313,12 +1515,24 @@ function renderResultados(){
     ? `<div class="res-cab"><span class="badge">${iconeCat(estado.cat)}</span><div><h2>${esc(estado.cat)}</h2><p>${contagem}</p></div></div>`
     : `<div class="res-cab"><span class="badge">${icone("busca")}</span><div><h2>Resultados para “${esc(corrigido || termo)}”</h2><p>${n ? contagem + " encontrada" + (n === 1 ? "" : "s") : "Nenhuma pergunta encontrada"}</p></div></div>`;
   const aviso = corrigido ? `<div class="correcao">Não encontramos nada para “${esc(termo)}”. Mostrando resultados para <strong>${esc(corrigido)}</strong>.</div>` : "";
+  const m = modo();
+  let sel = null;
+  if(n && m === "computador"){
+    sel = lista.find(f => chave(f) === estado.aberta) || lista[0];
+    estado.aberta = chave(sel);
+  }
+  document.body.classList.toggle("tem-md", !!sel);
   const corpo = n
-    ? `<div class="lista">${lista.map(f => itemHTML(f, !estado.cat)).join("")}</div>`
-    : `<div class="cartao vazio"><strong>Não encontramos nada com esse termo</strong><span>Tente outra palavra, como férias, holerite ou plano de saúde. Se preferir, fale com o RH logo abaixo: o que você buscou já vai na mensagem.</span></div>`;
-  $("#resultados").innerHTML = `<div class="res-topo"><button type="button" class="voltar" id="btnVoltar">${icone("voltar")}Voltar ao início</button>${chips}${cab}</div>${aviso}${corpo}${escalarHTML()}`;
+    ? (m === "tablet"
+        ? `<div class="lista">${lista.map(f => itemHTML(f, !estado.cat)).join("")}</div>`
+        : m === "computador"
+          ? `<div class="md"><div class="md-lista cartao">${lista.map(f => itemListaHTML(f, !estado.cat, f === sel)).join("")}</div><div class="md-detalhe" id="mdDetalhe">${detalheHTML(sel)}${escalarHTML()}</div></div>`
+          : `<div class="md-lista cartao">${lista.map(f => itemListaHTML(f, !estado.cat, false)).join("")}</div>`)
+    : `<div class="cartao vazio"><img class="vazio-angus angus-img" data-pose="pensando" alt="" width="64" height="64"><strong>Não encontramos nada com esse termo</strong><span>Tente outra palavra, como férias, holerite ou plano de saúde. Se preferir, fale com o RH logo abaixo: o que você buscou já vai na mensagem.</span></div>${sugestaoHTML("busca", estado.termo.trim())}`;
+  $("#resultados").innerHTML = `<div class="res-topo"><button type="button" class="voltar" id="btnVoltar">${icone("voltar")}Voltar ao início</button>${chips}${cab}</div>${aviso}${corpo}${sel ? "" : escalarHTML()}`;
   aplicarGlossario($("#resultados"));
   atualizarStatusRH();
+  aplicarPoses($("#resultados"));
   const ativo = $("#resultados .chip-cat[aria-current=true]");
   if(ativo && ativo.parentElement.scrollWidth > ativo.parentElement.clientWidth) ativo.parentElement.scrollLeft = ativo.offsetLeft - 20;
 
@@ -1372,6 +1586,7 @@ function render(){
   document.body.classList.toggle("em-resultado", emResultado);
   $("#assuntos").hidden = emResultado;
   $("#dicas").hidden = emResultado;
+  $("#sugerir").hidden = emResultado;
   $("#resultados").hidden = !emResultado;
   if(emResultado) renderResultados(); else renderRecentes();
   document.querySelectorAll(".nav-inferior [data-nav]").forEach(b => {
@@ -1444,12 +1659,127 @@ function abrirCategoria(cat, trocar = false){
 }
 function abrirPergunta(k){
   const f = FAQ.find(x => chave(x) === k); if(!f) return;
+  const m = modo();
+  if(camadaAtual === "chat") fecharCamadaAgora();
+  if(m === "celular" && camadaAtual === "folha"){ mostrarNaFolha(k); return; }
   limparBusca();
   guardarRecente(k);
   irPara({ cat: f.cat, termo: "", aberta: k }).then(() => {
-    const el = document.getElementById("qa-" + k);
-    if(el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    if(m === "celular") abrirFolha(k);
+    else if(m === "computador") topoConteudo();
+    else {
+      const el = document.getElementById("qa-" + k);
+      if(el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   });
+}
+const modo = () => window.innerWidth < 700 ? "celular" : window.innerWidth >= 1024 ? "computador" : "tablet";
+let ultimoModo = null;
+window.addEventListener("resize", () => {
+  const m = modo();
+  if(ultimoModo && m !== ultimoModo){
+    if(camadaAtual === "folha") fecharCamadaAgora();
+    if(!$("#resultados").hidden) renderResultados();
+  }
+  ultimoModo = m;
+});
+
+/* ---------- Camadas (folha da resposta e conversa) com o voltar do celular ---------- */
+let camadaAtual = null, camadaEmpilhada = false, focoAntes = null;
+function abrirCamada(nome){
+  focoAntes = document.activeElement;
+  camadaAtual = nome;
+  camadaEmpilhada = historico("pushState", Object.assign({}, history.state || {}, { camada: nome }), location.href);
+  if(camadaEmpilhada) pilha++;
+  const fundo = $("#camadaFundo"); fundo.hidden = false;
+  requestAnimationFrame(() => fundo.classList.add("visivel"));
+  document.body.classList.add("com-camada");
+}
+function fecharCamada(){
+  if(!camadaAtual) return;
+  if(camadaEmpilhada && HISTORICO_OK) history.back();
+  else fecharCamadaAgora();
+}
+function fecharCamadaAgora(){
+  const nome = camadaAtual; if(!nome) return;
+  camadaAtual = null; camadaEmpilhada = false;
+  pararFala();
+  const el = $("#" + nome), fundo = $("#camadaFundo");
+  el.classList.remove("aberta"); el.style.transform = "";
+  fundo.classList.remove("visivel");
+  document.body.classList.remove("com-camada");
+  setTimeout(() => { if(!camadaAtual){ el.hidden = true; fundo.hidden = true; } else if(camadaAtual !== nome){ el.hidden = true; } }, 260);
+  if(nome === "folha") estado.aberta = null;
+  if(focoAntes && document.contains(focoAntes)) focoAntes.focus({ preventScroll: true });
+}
+
+/* ---------- Folha da resposta (celular) ---------- */
+function preencherFolha(f){
+  const k = chave(f), termos = DESTAQUES.get(k) || [];
+  $("#folhaTag").textContent = f.cat;
+  $("#folhaTitulo").innerHTML = destacar(f.q, termos);
+  $("#folhaCorpo").innerHTML = `<article class="qa aberta qa-folha" data-chave="${k}">${corpoHTML(f, termos)}</article>${escalarHTML()}`;
+  $("#folhaCorpo").scrollTop = 0;
+  aplicarGlossario($("#folhaCorpo"));
+  atualizarStatusRH();
+}
+function abrirFolha(k){
+  const f = FAQ.find(x => chave(x) === k); if(!f) return;
+  estado.aberta = k;
+  guardarRecente(k);
+  registrarEvento("pergunta_aberta", { pergunta: f.q });
+  preencherFolha(f);
+  if(camadaAtual === "folha") return;
+  abrirCamada("folha");
+  const folha = $("#folha"); folha.hidden = false;
+  requestAnimationFrame(() => { folha.classList.add("aberta"); setTimeout(() => folha.querySelector(".folha-fechar").focus({ preventScroll: true }), 300); });
+}
+function mostrarNaFolha(k){
+  const f = FAQ.find(x => chave(x) === k); if(!f) return;
+  pararFala();
+  estado.aberta = k; guardarRecente(k);
+  registrarEvento("pergunta_aberta", { pergunta: f.q });
+  preencherFolha(f);
+}
+// arrastar a folha para baixo fecha
+(() => {
+  let y0 = null, dy = 0, t0 = 0;
+  const topo = () => $("#folhaTopo"), folha = () => $("#folha");
+  document.addEventListener("pointerdown", e => {
+    if(camadaAtual !== "folha" || !e.target.closest("#folhaTopo") || e.target.closest("button")) return;
+    y0 = e.clientY; dy = 0; t0 = Date.now(); folha().classList.add("arrastando");
+    try{ topo().setPointerCapture(e.pointerId); }catch(_){}
+  });
+  document.addEventListener("pointermove", e => {
+    if(y0 === null) return;
+    dy = Math.max(0, e.clientY - y0);
+    folha().style.transform = `translateY(${dy}px)`;
+  });
+  const soltar = () => {
+    if(y0 === null) return;
+    const rapido = dy > 40 && (Date.now() - t0) < 250;
+    folha().classList.remove("arrastando");
+    if(dy > 110 || rapido) fecharCamada();
+    else folha().style.transform = "";
+    y0 = null;
+  };
+  document.addEventListener("pointerup", soltar);
+  document.addEventListener("pointercancel", soltar);
+})();
+
+/* ---------- Painel ao lado (computador) ---------- */
+function selecionarDetalhe(k){
+  const f = FAQ.find(x => chave(x) === k); if(!f) return;
+  pararFala();
+  estado.aberta = k; guardarRecente(k);
+  registrarEvento("pergunta_aberta", { pergunta: f.q });
+  document.querySelectorAll(".md-item").forEach(b => { const a = b.dataset.md === k; b.classList.toggle("ativo", a); b.setAttribute("aria-current", String(a)); });
+  const det = $("#mdDetalhe");
+  det.innerHTML = detalheHTML(f) + escalarHTML();
+  det.scrollTop = 0;
+  aplicarGlossario(det); atualizarStatusRH();
+  historico("replaceState", { cat: estado.cat, aberta: k }, location.href);
+  if(det.getBoundingClientRect().top < 70) det.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 function voltarInicio(){
   limparBusca();
@@ -1459,6 +1789,7 @@ function voltarInicio(){
 }
 window.addEventListener("popstate", e => {
   pilha = Math.max(0, pilha - 1);
+  if(camadaAtual){ camadaEmpilhada = false; fecharCamadaAgora(); return; }
   const s = e.state || {};
   limparBusca();
   irPara({ cat: s.cat || null, termo: "", aberta: s.aberta || null }, false);
@@ -1486,6 +1817,15 @@ document.addEventListener("click", e => {
     atualizarOdonto(`[data-od-dep="${dep.dataset.odDep}"]`);
     return;
   }
+
+  const md = e.target.closest("[data-md]");
+  if(md){ return modo() === "celular" ? abrirFolha(md.dataset.md) : selecionarDetalhe(md.dataset.md); }
+  if(e.target.closest("[data-fecha-camada]") || e.target.id === "camadaFundo"){ return fecharCamada(); }
+  const atalho = e.target.closest("[data-atalho]");
+  if(atalho){ return usarAtalho(atalho.dataset.atalho); }
+  if(e.target.closest("[data-abre-chat]")){ return abrirChat(); }
+  const opc = e.target.closest("[data-chat]");
+  if(opc){ return acaoChat(opc); }
 
   const dica = e.target.closest("[data-dica]");
   if(dica){ e.stopPropagation(); return acaoDica(dica.dataset.dica, dica); }
@@ -1539,6 +1879,7 @@ document.addEventListener("click", e => {
     voto.classList.add("sel");
     art.classList.add(voto.dataset.voto === "nao" ? "pede-motivo" : "votou");
     registrarEvento("feedback", { pergunta: FAQ.find(f => chave(f) === art.dataset.chave)?.q, ajudou: voto.dataset.voto === "sim" ? "Sim" : "Não" });
+    if(voto.dataset.voto === "sim") avisar("Que bom que ajudou!", "comemorando");
     return;
   }
 
@@ -1644,8 +1985,11 @@ function ouvirVoz(btn){
   try{ rec.start(); }catch(e){ avisar("Não foi possível usar o microfone agora."); }
 }
 let timerAviso;
-function avisar(msg){
-  const a = $("#aviso"); a.textContent = msg; a.classList.add("visivel");
+function avisar(msg, pose){
+  const a = $("#aviso");
+  a.innerHTML = pose ? `<img class="aviso-angus angus-img" data-pose="${pose}" alt="">${esc(msg)}` : esc(msg);
+  if(pose) aplicarPoses(a);
+  a.classList.add("visivel");
   clearTimeout(timerAviso); timerAviso = setTimeout(() => a.classList.remove("visivel"), 3200);
 }
 
@@ -1789,6 +2133,237 @@ document.addEventListener("click", e => {
   registrarEvento("contato_whatsapp", { area: a.dataset.waArea, categoria: estado.cat || "", pergunta: (estado.aberta && FAQ.find(x => chave(x) === estado.aberta)?.q) || "", termo: estado.termo.trim() });
 }, true);
 
+/* ---------- Atalhos de busca ---------- */
+function renderAtalhos(){
+  $("#atalhosBusca").innerHTML = `<span class="atalhos-rot">Mais buscados:</span>` +
+    ATALHOS_BUSCA.map(a => `<button type="button" class="atalho" data-atalho="${esc(a)}">${esc(a)}</button>`).join("");
+}
+function usarAtalho(termo){
+  const campo = $("#campoBusca");
+  campo.value = termo;
+  aoDigitar(campo);
+  fecharSugestoes();
+  registrarEvento("atalho_busca", { termo });
+  topoConteudo();
+}
+
+/* ---------- Expressões do Angus ---------- */
+const POSES_OK = {};
+let ANGUS_BASE = "";
+function carregarPoses(){
+  ANGUS_BASE = $(".hero-angus img").src;
+  Object.entries(ANGUS_POSES).forEach(([pose, arquivo]) => {
+    if(!arquivo) return;
+    const img = new Image();
+    img.onload = () => {
+      POSES_OK[pose] = arquivo;
+      aplicarPoses(document);
+      if(pose === "acenando") $(".hero-angus img").src = arquivo;
+    };
+    img.src = arquivo;
+  });
+}
+function srcAngus(pose){ return POSES_OK[pose] || ANGUS_BASE; }
+function aplicarPoses(raiz){
+  (raiz || document).querySelectorAll("img.angus-img").forEach(img => {
+    const pose = img.dataset.pose || "padrao";
+    const src = srcAngus(pose);
+    if(img.getAttribute("src") !== src) img.src = src;
+    img.classList.toggle("pose-simulada", pose !== "padrao" && !POSES_OK[pose]);
+    img.dataset.anim = pose;
+  });
+}
+
+/* ---------- Conversa com o Angus ---------- */
+const CHAT = { iniciado: false, ultimo: null, termo: "", outras: [] };
+function abrirChat(){
+  if(camadaAtual === "folha") fecharCamadaAgora();
+  if(camadaAtual === "chat") return;
+  alternarPainel(false);
+  abrirCamada("chat");
+  const chat = $("#chat"); chat.hidden = false;
+  requestAnimationFrame(() => chat.classList.add("aberta"));
+  registrarEvento("chat_aberto", {});
+  if(!CHAT.iniciado){
+    CHAT.iniciado = true;
+    falaAngus(`Oi! Eu sou o Angus, do RH da Wessel. Me conta a sua dúvida que eu procuro a resposta para você.`, "acenando");
+    opcoesChat(inicioOpcoes());
+  }
+  setTimeout(() => $("#chatCampo").focus({ preventScroll: true }), 320);
+}
+function inicioOpcoes(){
+  return [...ATALHOS_BUSCA.slice(0, 4).map(a => ({ tipo: "perguntar", texto: a })), { tipo: "assuntos", texto: "Ver assuntos" }];
+}
+function rolarChat(){ const m = $("#chatMsgs"); requestAnimationFrame(() => { m.scrollTop = m.scrollHeight; }); }
+function balao(html, quem, pose){
+  const m = $("#chatMsgs");
+  const div = document.createElement("div");
+  div.className = "msg " + quem;
+  div.innerHTML = quem === "angus"
+    ? `<img class="msg-avatar angus-img" data-pose="${pose || "padrao"}" alt=""><div class="msg-bolha">${html}</div>`
+    : `<div class="msg-bolha">${html}</div>`;
+  m.appendChild(div);
+  aplicarPoses(div);
+  const av = $("#chat .chat-avatar"); av.dataset.pose = pose || "padrao"; aplicarPoses($("#chat .chat-cab"));
+  rolarChat();
+  return div;
+}
+function falaAngus(html, pose){ return balao(html, "angus", pose); }
+function digitando(){
+  const d = balao(`<span class="digitando" aria-label="Angus está digitando"><i></i><i></i><i></i></span>`, "angus", "pensando");
+  d.classList.add("msg-digitando");
+  return d;
+}
+function opcoesChat(lista){
+  $("#chatOpcoes").innerHTML = lista.map((o, i) => o.href
+    ? `<a class="opc opc-wa" href="${o.href}" target="_blank" rel="noopener" data-chat-wa>${icone("chat")}${esc(o.texto)}</a>`
+    : `<button type="button" class="opc${o.destaque ? " opc-dest" : ""}" data-chat="${o.tipo}" data-valor="${esc(o.valor ?? o.texto)}">${esc(o.texto)}</button>`).join("");
+}
+function contatoDe(f){
+  const c = (f && CONTACTS[f.cat]) || CONTACTS["Pagamento"] || Object.values(CONTACTS)[0];
+  return c;
+}
+function opcaoRH(f, msg){
+  const c = contatoDe(f);
+  return { texto: `Falar com ${c.label}`, href: waLink(c.number, msg) };
+}
+function responderChat(texto){
+  texto = texto.trim(); if(!texto) return;
+  balao(esc(texto), "eu");
+  opcoesChat([]);
+  CHAT.termo = texto;
+  registrarEvento("chat_pergunta", { termo: texto });
+  const d = digitando();
+  setTimeout(() => {
+    d.remove();
+    const { lista, corrigido } = buscarLista(texto, null);
+    if(!lista.length){
+      registrarEvento("busca_sem_resultado", { termo: texto.toLowerCase(), origem: "conversa com o Angus" });
+      falaAngus(`Hum, não encontrei uma resposta para isso no Bússola RH. Você pode falar com o RH pelo WhatsApp${METRICAS_URL ? " ou sugerir essa pergunta para ela entrar no portal" : ""}.`, "pensando");
+      const ops = [opcaoRH(null, `Olá! Perguntei ao Angus sobre *${texto}* no Bússola RH e não encontrei a resposta. Pode me ajudar?`)];
+      if(METRICAS_URL) ops.push({ tipo: "sugerir", texto: "Sugerir esta pergunta" });
+      ops.push({ tipo: "assuntos", texto: "Ver assuntos" });
+      opcoesChat(ops);
+      return;
+    }
+    CHAT.outras = lista.slice(1, 4).map(chave);
+    if(corrigido) falaAngus(`Procurei por <strong>${esc(corrigido)}</strong>.`);
+    mostrarRespostaChat(lista[0]);
+  }, 750);
+}
+function mostrarRespostaChat(f){
+  CHAT.ultimo = chave(f);
+  registrarEvento("pergunta_aberta", { pergunta: f.q, origem: "conversa com o Angus" });
+  const extra = f.extra === "planos_odonto" ? `<button type="button" class="opc opc-dest bolha-btn" data-chat="abrir" data-valor="${chave(f)}">Abrir o comparador de planos</button>` : "";
+  falaAngus(`<span class="msg-rot">Encontrei esta resposta:</span><strong class="msg-q">${esc(f.q)}</strong><span class="msg-a">${esc(f.a).replace(/\n/g, "<br>")}</span>${extra}`);
+  setTimeout(() => {
+    falaAngus("Isso respondeu a sua dúvida?");
+    const ops = [{ tipo: "sim", texto: "Sim, ajudou", destaque: true }, { tipo: "nao", texto: "Não" }];
+    if(CHAT.outras.length) ops.push({ tipo: "outras", texto: "Ver outras respostas" });
+    opcoesChat(ops);
+  }, 350);
+}
+function acaoChat(btn){
+  const tipo = btn.dataset.chat, valor = btn.dataset.valor;
+  const f = CHAT.ultimo && FAQ.find(x => chave(x) === CHAT.ultimo);
+  if(tipo === "perguntar"){ responderChat(valor); return; }
+  if(tipo === "abrir"){ abrirPergunta(valor); return; }
+  if(tipo === "ver"){ const g = FAQ.find(x => chave(x) === valor); if(g){ balao(esc(g.q), "eu"); CHAT.outras = CHAT.outras.filter(k => k !== valor); mostrarRespostaChat(g); } return; }
+  if(tipo === "assuntos"){
+    balao("Ver assuntos", "eu");
+    falaAngus("Escolha um assunto:");
+    opcoesChat(categorias().map(c => ({ tipo: "assunto", texto: c })));
+    return;
+  }
+  if(tipo === "assunto"){
+    balao(esc(valor), "eu");
+    const qs = FAQ.filter(x => x.cat === valor);
+    falaAngus(`Estas são as perguntas sobre <strong>${esc(valor)}</strong>:`);
+    opcoesChat(qs.map(x => ({ tipo: "ver", texto: x.q, valor: chave(x) })));
+    return;
+  }
+  if(tipo === "sim"){
+    balao("Sim, ajudou", "eu");
+    registrarEvento("feedback", { pergunta: f?.q, ajudou: "Sim", origem: "conversa com o Angus" });
+    falaAngus("Que bom! Se tiver outra dúvida, é só perguntar.", "comemorando");
+    opcoesChat(inicioOpcoes());
+    return;
+  }
+  if(tipo === "nao"){
+    balao("Não", "eu");
+    registrarEvento("feedback", { pergunta: f?.q, ajudou: "Não", origem: "conversa com o Angus" });
+    falaAngus("Poxa. Posso te mostrar outras respostas ou você pode falar com o RH.", "pensando");
+    const ops = [];
+    if(CHAT.outras.length) ops.push({ tipo: "outras", texto: "Ver outras respostas" });
+    ops.push(opcaoRH(f, `Olá! Li a resposta sobre *${f ? f.q : CHAT.termo}* no Bússola RH e ainda tenho uma dúvida.`));
+    if(METRICAS_URL) ops.push({ tipo: "sugerir", texto: "Sugerir esta pergunta" });
+    opcoesChat(ops);
+    return;
+  }
+  if(tipo === "outras"){
+    balao("Ver outras respostas", "eu");
+    falaAngus("Veja se alguma destas ajuda:");
+    opcoesChat(CHAT.outras.map(k => { const g = FAQ.find(x => chave(x) === k); return { tipo: "ver", texto: g.q, valor: k }; }));
+    return;
+  }
+  if(tipo === "sugerir"){
+    balao("Sugerir esta pergunta", "eu");
+    registrarEvento("sugestao", { termo: CHAT.termo, origem: "conversa com o Angus" });
+    falaAngus("Pronto! Enviei a sua sugestão para o RH. Obrigado por ajudar a melhorar o Bússola RH.", "comemorando");
+    opcoesChat(inicioOpcoes());
+  }
+}
+$("#chatForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const c = $("#chatCampo"), v = c.value; c.value = "";
+  responderChat(v);
+});
+if(Reconhecedor){
+  const mic = $("#chat .chat-mic"); mic.hidden = false;
+  mic.addEventListener("click", () => {
+    const rec = new Reconhecedor(); rec.lang = "pt-BR"; rec.interimResults = true;
+    let texto = "";
+    rec.onstart = () => mic.classList.add("ouvindo");
+    rec.onresult = ev => { texto = [...ev.results].map(r => r[0].transcript).join(" "); $("#chatCampo").value = texto; };
+    rec.onerror = ev => { if(ev.error === "not-allowed" || ev.error === "service-not-allowed") avisar("Libere o microfone nas permissões do navegador para falar com o Angus."); };
+    rec.onend = () => { mic.classList.remove("ouvindo"); if(texto.trim()){ $("#chatCampo").value = ""; responderChat(texto); } };
+    try{ rec.start(); }catch(_){}
+  });
+}
+
+/* ---------- Sugira uma pergunta ---------- */
+function sugestaoHTML(origem, texto){
+  if(!METRICAS_URL) return "";
+  const id = "sug-" + origem;
+  const valor = texto ? esc(texto.charAt(0).toUpperCase() + texto.slice(1)) : "";
+  return `<form class="sugestao" data-sugestao="${origem}" novalidate>
+    <div class="sug-cab"><span class="sug-ico">${icone("ideia")}</span>
+      <div><strong>${origem === "busca" ? "Sugira esta pergunta ao RH" : "Não achou a sua dúvida?"}</strong>
+      <span>${origem === "busca" ? "Ela pode entrar no Bússola RH para ajudar outros colegas." : "Sugira uma pergunta. Ela pode entrar no Bússola RH para ajudar outros colegas."}</span></div></div>
+    <label class="sr-only" for="${id}">Sua pergunta</label>
+    <textarea id="${id}" rows="2" maxlength="200" placeholder="Ex.: Como funciona o auxílio creche?">${valor}</textarea>
+    <div class="sug-rodape"><span class="sug-aviso">Não escreva seu nome nem dados pessoais.</span>
+      <button type="submit" class="sug-enviar">${icone("aviao")}Enviar sugestão</button></div>
+    <p class="sug-ok" role="status" hidden>${icone("check")}Obrigado! Sua sugestão foi enviada ao RH.</p>
+  </form>`;
+}
+function renderSugerir(){ $("#sugerir").innerHTML = sugestaoHTML("inicio", ""); }
+let ultimaSugestao = 0;
+document.addEventListener("submit", e => {
+  const f = e.target.closest("form[data-sugestao]");
+  if(!f) return;
+  e.preventDefault();
+  const campo = f.querySelector("textarea"), texto = campo.value.trim().replace(/\s+/g, " ");
+  if(texto.length < 5){ campo.focus(); campo.classList.add("erro"); avisar("Escreva a sua pergunta antes de enviar."); return; }
+  if(Date.now() - ultimaSugestao < 20000){ avisar("Aguarde alguns segundos para enviar outra sugestão."); return; }
+  ultimaSugestao = Date.now();
+  registrarEvento("sugestao", { termo: texto, origem: f.dataset.sugestao === "busca" ? "busca sem resultado" : "tela inicial" });
+  campo.value = ""; campo.classList.remove("erro");
+  const ok = f.querySelector(".sug-ok"); ok.hidden = false;
+  setTimeout(() => { ok.hidden = true; }, 6000);
+});
+document.addEventListener("input", e => { if(e.target.matches(".sugestao textarea")) e.target.classList.remove("erro"); });
+
 /* ---------- Dicas do Angus ---------- */
 function renderDicas(){
   const angus = $(".hero-angus img");
@@ -1801,18 +2376,14 @@ function renderDicas(){
       ? { id: "ouvir", icone: "som", titulo: "Ouça as respostas", texto: "Toda resposta tem o botão Ouvir resposta: o celular lê o texto em voz alta para você.", botao: "Ver um exemplo" }
       : { id: "ouvir", icone: "som", titulo: "Ouça as respostas", texto: "Abra o Bússola RH pelo Chrome do celular para ouvir as respostas em voz alta." },
     { id: "letra", texto_icone: "Aa", titulo: "Aumente a letra", texto: "No botão Aa, no alto da página, você deixa o texto maior e escolhe entre o modo claro e o escuro.", botao: "Ajustar agora" },
-    { id: "atalho", icone: "celular", titulo: "Deixe na tela do celular", texto: "Crie um atalho e abra o Bússola RH direto da tela inicial, como um aplicativo.", botao: "Ver como fazer",
-      extra: `<div class="dica-passos" hidden id="passosAtalho">
-        <p><strong>Android (Chrome):</strong> toque nos três pontinhos no canto superior e depois em <strong>Adicionar à tela inicial</strong>.</p>
-        <p><strong>iPhone (Safari):</strong> toque no botão Compartilhar e depois em <strong>Adicionar à Tela de Início</strong>.</p>
-      </div>` }
+    { id: "conversa", icone: "chat", titulo: "Converse com o Angus", texto: "Prefere perguntar como numa conversa? O Angus responde em balões e sugere os próximos passos.", botao: "Começar conversa" }
   ];
   $("#listaDicas").innerHTML = dicas.map(d => `<article class="dica-card">
       <span class="dica-ico">${d.icone ? icone(d.icone) : `<span class="dica-aa" aria-hidden="true">${d.texto_icone}</span>`}</span>
       <div class="dica-txt">
         <h3>${d.titulo}</h3>
         <p>${d.texto}</p>
-        ${d.botao ? `<button type="button" class="dica-btn" data-dica="${d.id}"${d.id === "atalho" ? ` aria-expanded="false" aria-controls="passosAtalho"` : ""}>${d.botao}${icone("seta")}</button>` : ""}
+        ${d.botao ? `<button type="button" class="dica-btn" data-dica="${d.id}">${d.botao}${icone("seta")}</button>` : ""}
         ${d.extra || ""}
       </div>
     </article>`).join("");
@@ -1833,10 +2404,8 @@ function acaoDica(id, btn){
   } else if(id === "letra"){
     window.scrollTo({ top: 0, behavior: "smooth" });
     setTimeout(() => { alternarPref(true); $("#painelPref .segmentos button")?.focus({ preventScroll: true }); }, 350);
-  } else if(id === "atalho"){
-    const passos = $("#passosAtalho"), abrir = passos.hidden;
-    passos.hidden = !abrir;
-    btn.setAttribute("aria-expanded", String(abrir));
+  } else if(id === "conversa"){
+    abrirChat();
   }
 }
 
@@ -1880,7 +2449,11 @@ window.addEventListener("scroll", () => {
   if(p.classList.contains("aberto") && p.classList.contains("no-topo") && !$("#barraFixa").classList.contains("visivel")) alternarPainel(false);
 }, { passive: true });
 document.addEventListener("keydown", e => {
-  if(e.key === "Escape"){ alternarPainel(false); fecharSugestoes(); fecharDica(); alternarPref(false); }
+  if(e.key === "Escape"){
+    if(!$("#dica").hidden){ fecharDica(); return; }
+    if(camadaAtual){ fecharCamada(); return; }
+    alternarPainel(false); fecharSugestoes(); alternarPref(false);
+  }
   if(e.key === "/" && !/input|textarea/i.test(document.activeElement.tagName)){ e.preventDefault(); ($("#barraFixa").classList.contains("visivel") ? $("#campoBuscaMini") : $("#campoBusca")).focus(); }
 });
 // barra compacta aparece quando a busca principal sai da tela
@@ -1962,6 +2535,10 @@ async function carregarDados(){
   renderRanking();
   renderAssuntos();
   renderDicas();
+  renderSugerir();
+  renderAtalhos();
+  carregarPoses();
+  ultimoModo = modo();
   renderContatos();
   // link direto para um assunto, ex.: .../#ferias
   const h = decodeURIComponent(location.hash.slice(1));
