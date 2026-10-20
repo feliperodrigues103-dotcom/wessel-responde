@@ -686,7 +686,7 @@ footer{padding:8px 0 110px;text-align:center;color:var(--suave);font-size:0.8125
     <div class="area-indique">
       <a class="cartao indique" id="cartaoIndique" href="#">
         <span class="badge"><svg class="ico"><use href="#i-indique"/></svg></span>
-        <span class="txt"><strong>Indique um Talento</strong><span class="d">Cada pessoa indicada que for admitida vale R$ 20 no seu Vale Alimentação.</span></span>
+        <span class="txt"><strong>Indique um Talento</strong><span class="d">Conhece alguém para trabalhar na Wessel? Saiba como indicar.</span></span>
         <span class="ir" aria-hidden="true"><svg class="ico"><use href="#i-seta"/></svg></span>
       </a>
     </div>
@@ -733,7 +733,7 @@ const LIVE_SHEET_CSV_URL = "";
 
 // Data exibida no rodapé, no formato ANO-MÊS-DIA. Atualize sempre que mudar o conteúdo.
 // Com a planilha conectada, o portal tenta usar a data da última alteração informada por ela.
-const ULTIMA_ATUALIZACAO = "2026-10-16";
+const ULTIMA_ATUALIZACAO = "2026-10-20";
 
 // Horários de atendimento humano
 const HORARIOS = "8h às 9h, 11h30 às 12h30, 14h30 às 15h30 e 18h às 19h";
@@ -745,7 +745,7 @@ const CONTACTS = {
   "Pagamento":  { number: "5511947943171", label: "Departamento Pessoal" },
   "Ponto":      { number: "5511947943171", label: "Departamento Pessoal" },
   "Documentos": { number: "5511947943171", label: "Departamento Pessoal" },
-  "Licenças":   { number: "5511947943171", label: "Departamento Pessoal" },
+  "Licenças e Ausências": { number: "5511947943171", label: "Departamento Pessoal" },
   "Indique um Talento": { number: "5511989343339", label: "Recrutamento e Seleção" },
   "Segurança do Trabalho": { number: "5511988349732", label: "Segurança do Trabalho" },
 };
@@ -756,14 +756,14 @@ const CENTRAL_URL = "";
 const DIAS_SELO = 30;
 // Assuntos inativos: ficam fora do portal (lista, busca, sugestões e mais procuradas).
 // Para reativar um assunto, basta tirá-lo desta lista.
-const CATEGORIAS_INATIVAS = ["Indique um Talento", "Documentos"];
+const CATEGORIAS_INATIVAS = ["Documentos"];
 const MOSTRAR_INDIQUE = !CATEGORIAS_INATIVAS.includes("Indique um Talento");
 const INDIQUE_MSG = "Olá, quero indicar um talento para a Wessel.";
 
 // Ordem e ícone das categorias (categorias novas da planilha entram no fim, com ícone genérico)
 const CATEGORY_ICONS = {
   "Férias":"ferias","Benefícios":"beneficios","Pagamento":"pagamento","Ponto":"ponto",
-  "Documentos":"documentos","Licenças":"licencas","Segurança do Trabalho":"seguranca","Indique um Talento":"indique"
+  "Documentos":"documentos","Licenças e Ausências":"licencas","Segurança do Trabalho":"seguranca","Indique um Talento":"indique"
 };
 
 // Glossário: termos que ficam sublinhados nas respostas; um toque mostra a explicação.
@@ -774,7 +774,7 @@ const GLOSSARIO = [
   { termos: ["carência"], titulo: "Carência", texto: "Tempo que é preciso esperar, depois de entrar no plano, para poder usar alguns tipos de atendimento." },
   { termos: ["em folha"], titulo: "Desconto em folha", texto: "Valor descontado direto do seu salário. Ele aparece discriminado no holerite." },
   { termos: ["proporcional"], titulo: "Proporcional", texto: "Valor calculado de acordo com os dias trabalhados no mês." },
-  { termos: ["banco de horas"], titulo: "Banco de horas", texto: "As horas trabalhadas a mais viram crédito para folgar depois, e as horas a menos viram débito para compensar." },
+  { termos: ["período aquisitivo"], titulo: "Período aquisitivo", texto: "Os 12 meses de trabalho que dão direito às férias. Quando eles se completam, você passa a ter direito a tirar férias." },
   { termos: ["INSS"], sigla: true, titulo: "INSS", texto: "Contribuição para a Previdência Social, que garante direitos como aposentadoria e auxílio em caso de afastamento por doença." },
   { termos: ["IRRF"], sigla: true, titulo: "IRRF", texto: "Imposto de Renda Retido na Fonte: parte do imposto descontada direto do salário, conforme a faixa de renda." },
   { termos: ["CLT"], sigla: true, titulo: "CLT", texto: "Consolidação das Leis do Trabalho. Colaborador CLT é quem trabalha com carteira assinada." },
@@ -814,8 +814,8 @@ function registrarEvento(nome, dados){
    PERGUNTAS EMBUTIDAS (usadas sem planilha ou se ela não carregar)
    ===================================================================== */
 const FALLBACK_FAQ_DATA = [
-  {cat:"Férias", upd:"2026-10-16", q:"Quantos dias de férias eu tenho por ano?", a:"Todo colaborador CLT tem direito a 30 dias corridos de férias a cada 12 meses de trabalho. Esse período de 12 meses é chamado de período aquisitivo: quando ele se completa, você passa a ter direito às férias.\n\nDurante as férias, você recebe o seu salário normal acrescido de 1/3, o chamado terço de férias.\n\nA data de saída é combinada com o seu gestor e agendada junto ao RH, com antecedência."},
-  {cat:"Férias", top:true, q:"Como solicito minhas férias formalmente?", a:"O agendamento é feito pelo seu gestor junto ao RH, com pelo menos 40 dias de antecedência da data de início. Alinhe o período desejado diretamente com seu gestor."},
+  {cat:"Férias", upd:"2026-10-20", kw:"30 dias, periodo aquisitivo, terco, 1/3, faltas", q:"Como funciona o meu direito a férias?", a:"A cada 12 meses de trabalho, você pode ter direito a até 30 dias corridos de férias.\n\nA data de saída é definida em conjunto com o seu gestor e depois alinhada com o RH.\n\nNo mês em que sair de férias, você recebe o valor dos dias trabalhados, mais o valor das férias acrescido de 1/3 constitucional, pago conforme os prazos legais.\n\nFaltas injustificadas ou alguns tipos de afastamento podem reduzir os dias de férias ou até fazer você perder o direito, conforme a lei. Nesses casos, um novo período aquisitivo pode começar após o retorno ao trabalho, quando previsto em lei."},
+  {cat:"Férias", top:true, upd:"2026-10-20", q:"Como solicito minhas férias formalmente?", a:"O agendamento é feito pelo seu gestor junto ao RH, com pelo menos 30 dias de antecedência da data de início. Alinhe o período desejado diretamente com o seu gestor."},
   {cat:"Férias", q:"Quando o valor das minhas férias é depositado?", a:"O valor das férias é depositado com 2 dias de antecedência da data efetiva de saída."},
   {cat:"Férias", q:"Posso vender parte das minhas férias?", a:"Sim. Você pode vender até 1/3 (10 dias) das suas férias, desde que solicite isso ao seu gestor dentro do prazo de antecedência combinado."},
   {cat:"Benefícios", top:true, upd:"2026-10-15", kw:"vale refeicao, vale alimentacao, cartao, 15 dias, admissao, proporcional", q:"Como funciona o VR/VA (vale refeição e alimentação)?", a:"Vale Refeição (VR): colaboradores externos recebem R$ 40,00 por dia trabalhado no cartão de VR, com desconto de R$ 32,00 em folha. O valor é proporcional aos dias trabalhados no mês.\n\nVale Alimentação (VA): R$ 290,00 por mês, com desconto de R$ 1,00 em folha. Para receber o VA, é preciso trabalhar pelo menos 15 dias no mês. Exemplo: quem é admitido no dia 17 não recebe o VA daquele mês.\n\nOs dois benefícios são creditados no 1º dia útil do mês."},
@@ -830,26 +830,29 @@ const FALLBACK_FAQ_DATA = [
   {cat:"Segurança do Trabalho", q:"Como faço para solicitar uma chave reserva do meu armário de uniforme ou do meu armário pessoal?", a:"A solicitação deve ser realizada diretamente com a equipe de Saúde e Segurança do Trabalho. Será disponibilizada uma cópia da chave, quando houver. Caso não exista uma chave reserva, será realizada a troca do miolo da fechadura."},
   {cat:"Segurança do Trabalho", q:"Como faço para retirar um EPI?", a:"Dirija-se à sala da Saúde e Segurança do Trabalho para realizar a assinatura digital da sua Ficha de EPI. Após a assinatura, você estará liberado para retirar o equipamento no Almoxarifado."},
   {cat:"Segurança do Trabalho", q:"Estou me sentindo mal ou não estou me sentindo bem. O que devo fazer?", a:"Dirija-se à sala de Saúde e Segurança do Trabalho para que seja realizada uma avaliação inicial. Após a avaliação, a equipe orientará e, se necessário, realizará o encaminhamento para um pronto atendimento adequado e mais próximo."},
-  {cat:"Pagamento", upd:"2026-10-16", q:"Em que dia o salário cai?", a:"O pagamento é feito até o 5º dia útil do mês. Quando houver fim de semana ou feriado, o crédito pode ser antecipado. Em meses com feriados, a data pode variar um pouco, mas sempre dentro do prazo do 5º dia útil."},
+  {cat:"Pagamento", upd:"2026-10-20", kw:"salario, quando cai, data do pagamento, quinto dia util, dia 7", q:"Qual é o dia do pagamento?", a:"O salário é pago até o 5º dia útil do mês seguinte ao trabalhado, e nunca depois do dia 7."},
   {cat:"Pagamento", top:true, upd:"2026-10-16", kw:"adp, portal adp, demonstrativo, recibo de pagamento", q:"Onde vejo meu holerite (contracheque)?", a:"O holerite fica disponível no portal da ADP. Acesse o portal com o seu login e consulte o demonstrativo de pagamento do mês.\n\nSe tiver dificuldade para acessar, fale com o Departamento Pessoal."},
-  {cat:"Pagamento", upd:"2026-10-16", q:"Como funciona o adiantamento salarial (vale)?", a:"O adiantamento é depositado no dia 20 de cada mês e descontado no pagamento do salário do mês seguinte, feito até o 5º dia útil."},
-  {cat:"Pagamento", q:"Como funciona o 13º salário?", a:"O 13º salário é pago em duas parcelas: a primeira até 30 de novembro, e a segunda até 20 de dezembro. Os descontos legais de INSS e IRRF ocorrem na última parcela."},
-  {cat:"Ponto", top:true, q:"O que é o banco de horas e como ele funciona?", a:"A Wessel atua com banco de horas (BH). Quando aplicável o pagamento de horas excedentes, os percentuais são: 60% de segunda a sábado, 100% em domingos e feriados, e adicional noturno de 20% para o horário das 22h01 às 5h00."},
-  {cat:"Ponto", q:"Esqueci de bater o ponto, o que eu faço?", a:"Avise seu gestor e o RH assim que perceber a irregularidade, e entregue a justificativa em até 48 horas para o ajuste no sistema Ponto ADP."},
+  {cat:"Pagamento", upd:"2026-10-20", kw:"vale, 40%, dia 20, admissao, admitido, irrf", q:"Como funciona o adiantamento salarial (vale)?", a:"O adiantamento corresponde a 40% do seu salário, pago antes do fechamento do mês. Conforme o caso, pode haver desconto de Imposto de Renda (IRRF).\n\nEle é pago no dia 20 de cada mês. Se o dia 20 cair em sábado, domingo ou feriado, o crédito é feito no próximo dia útil.\n\nO valor adiantado é descontado no pagamento do salário.\n\nQuem é admitido até o dia 10 recebe o adiantamento proporcional aos dias trabalhados. Quem é admitido depois do dia 10 não recebe adiantamento naquele mês, apenas o salário, pago até o 5º dia útil do mês seguinte."},
+  {cat:"Pagamento", upd:"2026-10-20", kw:"decimo terceiro, 13, parcelas, novembro, dezembro, proporcional", q:"Quando e como é pago o 13º salário?", a:"O 13º salário normalmente é pago em duas parcelas:\n\n1ª parcela: até 30 de novembro, equivalente a 50% do salário.\n\n2ª parcela: até 20 de dezembro, com o restante do valor, já com os descontos de INSS e IRRF.\n\nPara receber o 13º integral, é preciso ter trabalhado o ano inteiro, de janeiro a dezembro. Quem foi admitido durante o ano recebe o valor proporcional aos meses trabalhados. Conta como mês trabalhado aquele em que você trabalhou pelo menos 15 dias."},
+  {cat:"Ponto", upd:"2026-10-20", kw:"hora extra, horas extras, sabado, domingo, feriado, adicional noturno, noturno, 60%, 100%, 20%", q:"Como funcionam as horas extras e o adicional noturno?", a:"De segunda a sexta, as horas trabalhadas além da jornada vão para o banco de horas.\n\nQuando houver trabalho aos sábados, as horas são pagas com adicional de 60%. Em domingos e feriados, o adicional é de 100%.\n\nAdicional noturno: quem trabalha entre 22h e 5h recebe adicional de 20% sobre as horas trabalhadas nesse período."},
+  {cat:"Ponto", upd:"2026-10-20", kw:"esqueci, marcacao, ajuste de ponto, relogio, ponto online, celular, adp", q:"Esqueci de bater o ponto, o que eu faço?", a:"Depende de como você registra o ponto:\n\nRelógio de ponto na fábrica: avise o seu gestor e acompanhe no portal da ADP se o ajuste já foi feito.\n\nPonto online (celular ou notebook): acesse a ADP, solicite o ajuste e acompanhe se ele já foi aprovado pelo seu gestor."},
   {cat:"Ponto", q:"Tenho direito a intervalo para almoço ou jantar?", a:"Sim, você tem direito a 1 hora de intervalo para refeição e descanso, sendo obrigatório o descanso integral desse período."},
   {cat:"Ponto", q:"O que acontece se eu faltar sem justificativa?", a:"Faltas e atrasos não justificados trazem prejuízo ao seu salário e, em caso de reincidência, seguem uma escala de advertências: 1ª orientação verbal, 2ª e 3ª orientação por escrito, 4ª suspensão, 5ª demissão por justa causa."},
   {cat:"Documentos", q:"Como peço o informe de rendimentos para o Imposto de Renda?", a:"Essa informação ainda está sendo confirmada com o RH. Fale com o Departamento Pessoal para solicitar o seu."},
   {cat:"Documentos", q:"Perdi minha carteira de trabalho digital, o que fazer?", a:"A CTPS Digital pode ser reemitida pelo próprio aplicativo \'Carteira de Trabalho Digital\' do governo, usando seu CPF e conta gov.br. Nenhum dado precisa ser refeito pela empresa."},
   {cat:"Documentos", q:"Como solicito uma declaração de vínculo empregatício?", a:"Preencha o formulário abaixo informando a finalidade da declaração (banco, imobiliária, etc.). O RH emite em até 2 dias úteis.", link:{label:"Preencher: Solicitação de Declaração", icon:"📝", url:"https://forms.office.com/exemplo-declaracao"}},
-  {cat:"Licenças", top:true, q:"Quantos dias de licença tenho quando nasce um filho (paternidade)?", a:"5 dias corridos de licença-paternidade, em seguida ao nascimento do filho."},
-  {cat:"Licenças", q:"Quantos dias de licença tenho em caso de falecimento de um familiar?", a:"2 dias corridos, incluindo o dia do acontecimento, em caso de falecimento de cônjuge ou companheiro(a), filhos, pai, mãe, sogro ou sogra."},
-  {cat:"Licenças", q:"Tenho licença para casamento?", a:"Sim, 5 dias corridos de licença para casamento."},
-  {cat:"Licenças", q:"Quantos dias de licença-maternidade eu tenho?", a:"120 dias de licença-maternidade."},
-  {cat:"Licenças", q:"Tenho licença para doação de sangue?", a:"Sim, 1 dia a cada 12 meses de trabalho, mediante comprovação da doação voluntária."},
-  {cat:"Licenças", q:"Tenho licença para acompanhar internação de um familiar?", a:"Sim, 1 dia por semestre, para internação hospitalar de cônjuge ou filho dependente, quando coincidente com seu dia normal de trabalho."},
-  {cat:"Indique um Talento", q:"Como funciona o programa Indique um Talento?", a:"Você indica um amigo, familiar ou conhecido para trabalhar na Wessel. Se a pessoa for aprovada e admitida, você recebe uma bonificação no seu Vale Alimentação."},
+  {cat:"Licenças e Ausências", top:true, kw:"atestado, atestado medico, declaracao de horas, certidao, comprovante, falta, ausencia", upd:"2026-10-20", q:"Como entrego atestados e comprovantes de ausência?", a:"Se precisar se ausentar do trabalho, avise o seu gestor e informe o motivo da ausência.\n\nAo voltar às atividades, entregue o comprovante ao seu gestor: atestado médico, declaração de horas, certidão, comprovante judicial ou outro documento que justifique a ausência.\n\nO gestor encaminha a documentação para a Segurança do Trabalho, que faz a análise e o registro."},
+  {cat:"Licenças e Ausências", kw:"falecimento, obito, luto, morte, sogro, sogra, irmao", upd:"2026-10-20", q:"Quantos dias tenho em caso de falecimento de um familiar?", a:"2 dias consecutivos, contando o dia do falecimento.\n\nSão considerados familiares: cônjuge (esposa ou esposo), filho ou filha, pai, mãe, irmãos, sogro e sogra."},
+  {cat:"Licenças e Ausências", kw:"paternidade, nascimento, adocao, filho, bebe", upd:"2026-10-20", q:"Quantos dias tenho quando nasce ou adoto um filho?", a:"5 dias corridos, contados a partir da data do nascimento ou da adoção."},
+  {cat:"Licenças e Ausências", kw:"maternidade, gestante, adocao, parto, internacao, alta hospitalar", upd:"2026-10-20", q:"Quantos dias de licença-maternidade eu tenho?", a:"120 dias de afastamento remunerado, em caso de nascimento ou adoção de filho.\n\nSe a mãe ou o bebê precisar ficar internado por complicações relacionadas ao parto, a contagem da licença pode seguir as regras legais aplicáveis, considerando a data da alta hospitalar."},
+  {cat:"Licenças e Ausências", kw:"casamento, casar, licenca casamento", upd:"2026-10-20", q:"Quantos dias tenho de licença casamento?", a:"Até 5 dias corridos, contados a partir da data do casamento, mediante comprovação."},
+  {cat:"Licenças e Ausências", kw:"pre natal, gestante, gravida, consulta, exame, esposa, companheira", upd:"2026-10-20", q:"Posso acompanhar minha esposa ou companheira gestante em consultas?", a:"Sim. Mediante comprovação, você pode deixar de comparecer ao trabalho para acompanhar até 6 consultas e/ou exames."},
+  {cat:"Licenças e Ausências", kw:"filho, crianca, pediatra, consulta, medico", upd:"2026-10-20", q:"Posso faltar para levar meu filho menor de 6 anos ao médico?", a:"Sim. Mediante comprovação, você pode deixar de comparecer ao trabalho 1 dia por ano, por filho declarado, para acompanhá-lo em consulta médica."},
+  {cat:"Licenças e Ausências", kw:"internacao, internado, hospital, filho, esposa, marido, companheiro", upd:"2026-10-20", q:"Posso faltar quando um familiar é internado?", a:"Sim. Mediante comprovação, você pode deixar de comparecer ao trabalho 1 dia por internação de filho ou filha, cônjuge ou companheiro(a)."},
+  {cat:"Licenças e Ausências", kw:"preventivo, cancer, hpv, papanicolau, mamografia, exame", upd:"2026-10-20", q:"Posso faltar para fazer exames preventivos de câncer?", a:"Sim. Mediante comprovação, você pode deixar de comparecer ao trabalho até 3 dias a cada 12 meses para realizar exames preventivos de câncer e/ou HPV."},
+  {cat:"Licenças e Ausências", kw:"doacao de sangue, doar sangue, sangue", upd:"2026-10-20", q:"Posso faltar para doar sangue?", a:"Sim, 1 dia a cada 12 meses de trabalho, mediante comprovação da doação voluntária."},
+  {cat:"Indique um Talento", upd:"2026-10-20", q:"Como funciona o programa Indique um Talento?", a:"Você pode indicar amigos, familiares ou conhecidos para trabalhar na Wessel. A pessoa indicada participa normalmente do processo seletivo."},
   {cat:"Indique um Talento", q:"Como eu faço a indicação?", a:"De duas formas: entregue o currículo da pessoa para o responsável pelo processo seletivo, ou peça para a pessoa informar seu nome completo como responsável pela indicação no momento da entrevista."},
-  {cat:"Indique um Talento", q:"Quanto eu ganho por cada indicação?", a:"R$ 20,00 no Vale Alimentação por pessoa indicada que for aprovada e admitida. O valor soma a cada indicação: 2 admissões = R$ 40,00, 3 admissões = R$ 60,00, e assim por diante."},
   {cat:"Indique um Talento", q:"Preciso me preocupar com algum prazo na indicação?", a:"Sim. A indicação precisa ser registrada antes ou no momento em que o candidato participa do processo seletivo. Se a pessoa já estiver participando do processo ou já tiver sido indicada por outra pessoa, vale a primeira indicação registrada."},
   {cat:"Indique um Talento", q:"A indicação vale para qualquer vaga?", a:"Vale para processos seletivos da Wessel e para oportunidades divulgadas pelo PAT."},
 ];
@@ -923,6 +926,13 @@ const SINONIMOS = [
   ["clareamento","clarear","dente branco","dentes brancos"],
   ["protese","proteses","dentadura","coroa"],
   ["bruxismo","placa de mordida","ranger os dentes"],
+  ["adicional noturno","noturno","turno da noite","madrugada"],
+  ["ajuste de ponto","ajustar o ponto","marcacao de ponto"],
+  ["preventivo","exame preventivo","papanicolau","hpv","mamografia","cancer"],
+  ["adocao","adotar","adotei","adotado"],
+  ["doacao de sangue","doar sangue","sangue"],
+  ["internacao","internado","internada","hospital"],
+  ["pre natal","prenatal","consulta da esposa"],
   ["farmacia","remedio","remedios","medicamento","golden farma"],
   ["atestado","falta","faltar","faltei","doente","afastamento"],
   ["ferias","descanso","folga"],
@@ -955,8 +965,9 @@ function gruposDaBusca(termo){
   const usados = new Set();
   // expressões de várias palavras (ex.: "plano de saude")
   SINONIMOS.forEach(g => {
-    if(g.some(x => x.includes(" ") && (" " + n + " ").includes(" " + x + " "))){
-      grupos.push(g); g.join(" ").split(" ").forEach(w => usados.add(w));
+    const frase = g.find(x => x.includes(" ") && (" " + n + " ").includes(" " + x + " "));
+    if(frase){
+      grupos.push([frase, ...g.filter(x => x !== frase)]); g.join(" ").split(" ").forEach(w => usados.add(w));
     }
   });
   n.split(" ").filter(w => w && !STOP.has(w) && !usados.has(w) && (w.length > 1 || /\d/.test(w)))
@@ -973,8 +984,9 @@ function pontuar(f, grupos){
   let acertos = 0, pontos = 0; const achados = [];
   grupos.forEach(g => {
     let melhor = 0;
-    g.forEach(alt => {
-      const p = contem(hq, alt) ? 3 : contem(hk, alt) ? 2 : contem(ha, alt) ? 1 : 0;
+    g.forEach((alt, i) => {
+      // i === 0 é o que a pessoa digitou: no título vale mais do que um sinônimo
+      const p = contem(hq, alt) ? (i === 0 ? 4 : 3) : contem(hk, alt) ? 2 : contem(ha, alt) ? 1 : 0;
       if(p){ melhor = Math.max(melhor, p); if(p !== 2) achados.push(alt); }
     });
     if(melhor){ acertos++; pontos += melhor; }
