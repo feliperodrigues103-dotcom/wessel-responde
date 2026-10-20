@@ -350,8 +350,7 @@ mark{background:var(--marca-texto);color:inherit;border-radius:3px;padding:0 2px
   .nav-inferior .nav-wa{color:var(--wa)}
   .nav-inferior .ico{width:22px;height:22px}
   body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
-  body .fab{display:none}
-  .painel{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  #painel{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
   footer{padding-bottom:24px}
 }
 
@@ -513,23 +512,24 @@ mark{background:var(--marca-texto);color:inherit;border-radius:3px;padding:0 2px
   .od-tabela th,.od-tabela td{padding:8px 3px}
 }
 
+/* ---------- Status do atendimento ---------- */
+.status-rh{display:inline-flex;align-items:center;gap:8px;font-size:.875rem;font-weight:700;color:var(--suave);line-height:1.35}
+.status-rh .ponto{width:9px;height:9px;border-radius:999px;background:#9aa1ad;flex:none}
+.status-rh.aberto{color:var(--ok)}
+.status-rh.aberto .ponto{background:var(--ok);box-shadow:0 0 0 0 rgba(15,122,63,.5);animation:pulso-ok 2s ease-out infinite}
+@keyframes pulso-ok{0%{box-shadow:0 0 0 0 rgba(15,122,63,.45)}70%{box-shadow:0 0 0 7px rgba(15,122,63,0)}100%{box-shadow:0 0 0 0 rgba(15,122,63,0)}}
+.status-escuro{color:var(--sobre-mar)}
+.status-escuro.aberto{color:#8ee0b0}
+.status-escuro.aberto .ponto{background:#8ee0b0}
+.painel-nota{display:flex;flex-direction:column;gap:6px}
+
 /* ---------- Rodapé ---------- */
-footer{padding:8px 0 110px;text-align:center;color:var(--suave);font-size:0.8125rem;display:flex;flex-direction:column;gap:2px}
+footer{padding:8px 0 40px;text-align:center;color:var(--suave);font-size:0.8125rem;display:flex;flex-direction:column;gap:2px}
 
 /* ---------- Botão flutuante e painel ---------- */
-.fab{
-  position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;
-  display:inline-flex;align-items:center;gap:10px;height:58px;padding:0 18px 0 16px;border:0;border-radius:999px;
-  background:var(--wa);color:#fff;font-weight:700;font-size:0.9375rem;cursor:pointer;
-  box-shadow:0 10px 24px rgba(15,122,63,.35);
-}
-.fab:hover{background:var(--wa-hover)}
-.fab.oculto{opacity:0;transform:translateY(16px);pointer-events:none}
-.fab{transition:opacity .2s,transform .2s}
-.fab .ico{width:24px;height:24px}
-@media (max-width:699.98px){.fab{width:58px;padding:0;justify-content:center}.fab span{display:none}}
+
 .painel{
-  position:fixed;right:18px;bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:41;
+  position:fixed;right:18px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:50;
   width:min(360px,calc(100vw - 36px));background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-lg);
   box-shadow:0 20px 50px rgba(20,27,43,.25);overflow:hidden;
   opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .18s,transform .18s;
@@ -613,7 +613,7 @@ footer{padding:8px 0 110px;text-align:center;color:var(--suave);font-size:0.8125
           </div>
         </div>
       </div>
-      <button class="btn-wa" type="button" data-abre-painel aria-label="Falar com o RH pelo WhatsApp"><svg class="ico"><use href="#i-chat"/></svg><span>Falar com o RH</span></button>
+      <button class="btn-wa" type="button" data-abre-painel aria-controls="painel" aria-expanded="false" aria-label="Falar com o RH pelo WhatsApp"><svg class="ico"><use href="#i-chat"/></svg><span>Falar com o RH</span></button>
     </div>
     <div class="hero-grid">
       <div class="hero-texto">
@@ -648,7 +648,7 @@ footer{padding:8px 0 110px;text-align:center;color:var(--suave);font-size:0.8125
       </label>
       <ul class="sugestoes" id="sugestoesMini" role="listbox" hidden></ul>
     </form>
-    <button class="btn-wa barra-wa" type="button" data-abre-painel aria-label="Falar com o RH pelo WhatsApp"><svg class="ico"><use href="#i-chat"/></svg><span>Falar com o RH</span></button>
+    <button class="btn-wa barra-wa" type="button" data-abre-painel aria-controls="painel" aria-expanded="false" aria-label="Falar com o RH pelo WhatsApp"><svg class="ico"><use href="#i-chat"/></svg><span>Falar com o RH</span></button>
   </div>
 </div>
 
@@ -677,6 +677,7 @@ footer{padding:8px 0 110px;text-align:center;color:var(--suave);font-size:0.8125
       <div class="cartao">
         <div class="contato-topo">
           <strong id="tContato">Fale com o RH</strong>
+          <span class="status-rh" data-status-rh></span>
           <span id="horarioContato"></span>
         </div>
         <div id="listaAreas"></div>
@@ -698,12 +699,11 @@ footer{padding:8px 0 110px;text-align:center;color:var(--suave);font-size:0.8125
   <span>Bússola RH, central de dúvidas do RH da Wessel</span>
 </footer>
 
-<button class="fab oculto" type="button" data-abre-painel aria-controls="painel" aria-expanded="false"><svg class="ico"><use href="#i-chat"/></svg><span>Falar com o RH</span></button>
 <nav class="nav-inferior" aria-label="Navegação principal">
   <button type="button" data-nav="inicio" class="ativo"><svg class="ico"><use href="#i-casa"/></svg><span>Início</span></button>
   <button type="button" data-nav="assuntos"><svg class="ico"><use href="#i-grade"/></svg><span>Assuntos</span></button>
   <button type="button" data-nav="buscar"><svg class="ico"><use href="#i-busca"/></svg><span>Buscar</span></button>
-  <button type="button" data-abre-painel class="nav-wa"><svg class="ico"><use href="#i-chat"/></svg><span>Falar com RH</span></button>
+  <button type="button" data-abre-painel aria-controls="painel" aria-expanded="false" class="nav-wa"><svg class="ico"><use href="#i-chat"/></svg><span>Falar com RH</span></button>
 </nav>
 <div class="dica" id="dica" role="dialog" hidden></div>
 <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
@@ -713,7 +713,7 @@ footer{padding:8px 0 110px;text-align:center;color:var(--suave);font-size:0.8125
     <div class="txt"><strong id="painelTitulo">Fale com o RH</strong><span>Escolha a área do seu assunto</span></div>
     <button type="button" id="fecharPainel" aria-label="Fechar"><svg class="ico"><use href="#i-fechar"/></svg></button>
   </div>
-  <div class="painel-nota" id="painelNota"></div>
+  <div class="painel-nota"><span class="status-rh" data-status-rh></span><span id="painelNota"></span></div>
   <div id="painelAreas"></div>
 </div>
 
@@ -736,7 +736,17 @@ const LIVE_SHEET_CSV_URL = "";
 const ULTIMA_ATUALIZACAO = "2026-10-20";
 
 // Horários de atendimento humano
-const HORARIOS = "8h às 9h, 11h30 às 12h30, 14h30 às 15h30 e 18h às 19h";
+// Horários de atendimento humano pelo WhatsApp (horário de Brasília).
+// dias: 0 = domingo, 1 = segunda ... 6 = sábado. Feriados não são considerados.
+const ATENDIMENTO = {
+  dias: [1, 2, 3, 4, 5],
+  janelas: [["08:00", "09:00"], ["11:30", "12:30"], ["14:30", "15:30"], ["18:00", "19:00"]]
+};
+const hm = s => { const [h, m] = s.split(":").map(Number); return m ? `${h}h${String(m).padStart(2, "0")}` : `${h}h`; };
+const HORARIOS = (() => {
+  const l = ATENDIMENTO.janelas.map(([a, b]) => `${hm(a)} às ${hm(b)}`);
+  return l.length > 1 ? l.slice(0, -1).join(", ") + " e " + l[l.length - 1] : l[0];
+})();
 
 // Contatos por assunto (formato 55DDDNUMERO, sem símbolos)
 const CONTACTS = {
@@ -802,11 +812,31 @@ const COBERTURAS_ODONTO = [
   { id: "protese",    destaque: true,  icone: "protese",    chip: "Prótese ou dentadura", curto: "Prótese",  nome: "Próteses e dentadura", planos: { padrao: "nao", white: "nao", premium: "sim" } }
 ];
 
-// Ganchos de métricas: funcionam automaticamente se Plausible ou GA4 forem instalados no portal.
+// Métricas: cole aqui o endereço do App da Web do Google Apps Script (termina em /exec).
+// Vazio = nenhuma métrica é enviada. Nenhum dado pessoal é registrado.
+const METRICAS_URL = "https://script.google.com/macros/s/AKfycbyl-w79AkOFCEhFVVYW6_WIGPQIuD311wB5ePDbIgZ-Z-Pe3d99_OcBRr1BHLKswaFs/exec";
 function registrarEvento(nome, dados){
+  dados = dados || {};
   try{
     if(window.plausible) window.plausible(nome, { props: dados });
     else if(window.gtag) window.gtag("event", nome, dados);
+  }catch(e){}
+  if(!METRICAS_URL) return;
+  try{
+    const { categoria, pergunta, termo, ...resto } = dados;
+    const f = pergunta && FAQ.find(x => x.q === pergunta);
+    const corpo = JSON.stringify({
+      evento: nome,
+      assunto: categoria || (f ? f.cat : ""),
+      pergunta: pergunta || "",
+      termo: termo || "",
+      detalhe: Object.entries(resto).filter(([, v]) => v !== "" && v != null).map(([k, v]) => `${k}: ${v}`).join(", "),
+      dispositivo: window.innerWidth < 700 ? "celular" : window.innerWidth < 1024 ? "tablet" : "computador"
+    });
+    const blob = new Blob([corpo], { type: "text/plain;charset=UTF-8" });
+    if(!(navigator.sendBeacon && navigator.sendBeacon(METRICAS_URL, blob))){
+      fetch(METRICAS_URL, { method: "POST", mode: "no-cors", body: corpo, keepalive: true }).catch(() => {});
+    }
   }catch(e){}
 }
 
@@ -1002,7 +1032,7 @@ function areasUnicas(){
   return [...mapa].map(([label, number]) => ({ label, number }));
 }
 function linkArea(a){
-  return `<a class="area-link" href="${waLink(a.number, `Olá, tenho uma dúvida para o time de *${a.label}*.`)}" target="_blank" rel="noopener">
+  return `<a class="area-link" data-wa-num="${a.number}" data-wa-area="${esc(a.label)}" href="${waLink(a.number, `Olá, tenho uma dúvida para o time de *${a.label}*.`)}" target="_blank" rel="noopener">
     <span class="wa">${icone("chat")}</span><span class="nome">${esc(a.label)}</span><span class="seta">${icone("seta")}</span></a>`;
 }
 function categorias(){
@@ -1035,8 +1065,7 @@ function renderContatos(){
   const html = areasUnicas().map(linkArea).join("");
   $("#listaAreas").innerHTML = html;
   $("#painelAreas").innerHTML = html;
-  $("#horarioContato").textContent = "Atendimento pelo WhatsApp: " + HORARIOS + ".";
-  $("#painelNota").textContent = "Atendimento humano nos horários: " + HORARIOS + ".";
+  atualizarStatusRH();
   const ind = (CONTACTS["Indique um Talento"] || EXTRA_AREAS[0]);
   $("#atualizado").textContent = "Conteúdo atualizado em " + formatarData(DATA_CONTEUDO || ULTIMA_ATUALIZACAO);
   const temIndique = FAQ.some(f => f.cat === "Indique um Talento");
@@ -1178,12 +1207,14 @@ function escalarHTML(){
     return `<div class="escalar">
       <div class="linha"><img src="${$(".hero-angus img").src}" alt=""><strong>Ainda com dúvida sobre ${esc(estado.cat.toLowerCase())}?</strong></div>
       <p>Fale direto com a área responsável: ${esc(c.label)}.</p>
-      <a class="btn-wa" href="${waLink(c.number, `Olá, tenho uma dúvida sobre *${estado.cat}* que não encontrei no Bússola RH.`)}" target="_blank" rel="noopener">${icone("chat")}Chamar no WhatsApp</a>
+      <span class="status-rh status-escuro" data-status-rh></span>
+      <a class="btn-wa" data-wa-num="${c.number}" data-wa-area="${esc(c.label)}" href="${waLink(c.number, `Olá, tenho uma dúvida sobre *${estado.cat}* que não encontrei no Bússola RH.`)}" target="_blank" rel="noopener">${icone("chat")}Chamar no WhatsApp</a>
     </div>`;
   }
   return `<div class="escalar">
     <div class="linha"><img src="${$(".hero-angus img").src}" alt=""><strong>Não encontrou o que procurava? Fale com a área certa do RH.</strong></div>
-    <div class="areas">${areasUnicas().map(a => `<a class="btn-wa" href="${waLink(a.number, `Olá, tenho uma dúvida para o time de *${a.label}*.`)}" target="_blank" rel="noopener">${icone("chat")}${esc(a.label)}</a>`).join("")}</div>
+    <span class="status-rh status-escuro" data-status-rh></span>
+    <div class="areas">${areasUnicas().map(a => `<a class="btn-wa" data-wa-num="${a.number}" data-wa-area="${esc(a.label)}" href="${waLink(a.number, `Olá, tenho uma dúvida para o time de *${a.label}*.`)}" target="_blank" rel="noopener">${icone("chat")}${esc(a.label)}</a>`).join("")}</div>
   </div>`;
 }
 /* ---------- Busca (usada pela lista de resultados e pelas sugestões) ---------- */
@@ -1266,9 +1297,10 @@ function renderResultados(){
   const aviso = corrigido ? `<div class="correcao">Não encontramos nada para “${esc(termo)}”. Mostrando resultados para <strong>${esc(corrigido)}</strong>.</div>` : "";
   const corpo = n
     ? `<div class="lista">${lista.map(f => itemHTML(f, !estado.cat)).join("")}</div>`
-    : `<div class="cartao vazio"><strong>Não encontramos nada com esse termo</strong><span>Tente outra palavra, como férias, holerite ou plano de saúde, ou fale com o RH logo abaixo.</span></div>`;
+    : `<div class="cartao vazio"><strong>Não encontramos nada com esse termo</strong><span>Tente outra palavra, como férias, holerite ou plano de saúde. Se preferir, fale com o RH logo abaixo: o que você buscou já vai na mensagem.</span></div>`;
   $("#resultados").innerHTML = `<div class="res-topo"><button type="button" class="voltar" id="btnVoltar">${icone("voltar")}Voltar ao início</button>${chips}${cab}</div>${aviso}${corpo}${escalarHTML()}`;
   aplicarGlossario($("#resultados"));
+  atualizarStatusRH();
   const ativo = $("#resultados .chip-cat[aria-current=true]");
   if(ativo && ativo.parentElement.scrollWidth > ativo.parentElement.clientWidth) ativo.parentElement.scrollLeft = ativo.offsetLeft - 20;
 
@@ -1484,7 +1516,7 @@ document.addEventListener("click", e => {
     art.querySelectorAll(".voto").forEach(b => { b.disabled = true; });
     voto.classList.add("sel");
     art.classList.add(voto.dataset.voto === "nao" ? "pede-motivo" : "votou");
-    registrarEvento("feedback", { pergunta: FAQ.find(f => chave(f) === art.dataset.chave)?.q, ajudou: voto.dataset.voto });
+    registrarEvento("feedback", { pergunta: FAQ.find(f => chave(f) === art.dataset.chave)?.q, ajudou: voto.dataset.voto === "sim" ? "Sim" : "Não" });
     return;
   }
 
@@ -1492,7 +1524,7 @@ document.addEventListener("click", e => {
   if(motivo){
     const art = motivo.closest(".qa");
     art.classList.remove("pede-motivo"); art.classList.add("votou");
-    registrarEvento("feedback_motivo", { pergunta: FAQ.find(f => chave(f) === art.dataset.chave)?.q, motivo: motivo.dataset.motivo });
+    registrarEvento("feedback_motivo", { pergunta: FAQ.find(f => chave(f) === art.dataset.chave)?.q, motivo: motivo.textContent.trim() });
     return;
   }
 
@@ -1502,7 +1534,8 @@ document.addEventListener("click", e => {
   if(e.target.closest("#logoLink")){ e.preventDefault(); return voltarInicio(); }
   if(e.target.closest("#linkAssuntos")){ e.preventDefault(); if(estado.cat || estado.termo) voltarInicio(); setTimeout(topoConteudo, 50); return; }
 
-  if(e.target.closest("[data-abre-painel]")){ return alternarPainel(); }
+  const gat = e.target.closest("[data-abre-painel]");
+  if(gat){ return alternarPainel(undefined, gat); }
   if(e.target.closest("#fecharPainel")) return alternarPainel(false);
   if($("#painel").classList.contains("aberto") && !e.target.closest("#painel")) alternarPainel(false);
 });
@@ -1636,7 +1669,7 @@ function mostrarDica(btn){
   d.style.left = x + "px"; d.style.top = y + "px";
   btn.setAttribute("aria-expanded", "true");
   termoAberto = btn;
-  registrarEvento("glossario", { termo: g.titulo });
+  registrarEvento("glossario", { item: g.titulo });
 }
 function fecharDica(){
   $("#dica").hidden = true;
@@ -1671,6 +1704,69 @@ function saudacao(){
   return "Boa noite e bom turno!";
 }
 
+/* ---------- Status do atendimento ---------- */
+const NOMES_DIA = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
+function agoraBrasilia(){
+  try{
+    const partes = Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: "America/Sao_Paulo", weekday: "short", hour: "2-digit", minute: "2-digit", hourCycle: "h23" })
+      .formatToParts(new Date()).map(x => [x.type, x.value]));
+    const dia = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(partes.weekday);
+    return { dia, min: Number(partes.hour) * 60 + Number(partes.minute) };
+  }catch(e){ const d = new Date(); return { dia: d.getDay(), min: d.getHours() * 60 + d.getMinutes() }; }
+}
+const paraMin = s => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
+function statusAtendimento(){
+  const { dia, min } = agoraBrasilia();
+  const janelas = ATENDIMENTO.janelas.map(([a, b]) => [paraMin(a), paraMin(b), a, b]);
+  if(ATENDIMENTO.dias.includes(dia)){
+    const atual = janelas.find(([a, b]) => min >= a && min < b);
+    if(atual) return { aberto: true, texto: `Atendimento disponível agora, até ${hm(atual[3])}` };
+    const prox = janelas.find(([a]) => a > min);
+    if(prox) return { aberto: false, texto: `Fora do horário. Próximo atendimento hoje às ${hm(prox[2])}` };
+  }
+  for(let i = 1; i <= 7; i++){
+    const d = (dia + i) % 7;
+    if(ATENDIMENTO.dias.includes(d)){
+      const quando = i === 1 ? "amanhã" : NOMES_DIA[d];
+      return { aberto: false, texto: `Fora do horário. Próximo atendimento ${quando} às ${hm(janelas[0][2])}` };
+    }
+  }
+  return { aberto: false, texto: "Fora do horário de atendimento" };
+}
+function atualizarStatusRH(){
+  const s = statusAtendimento();
+  document.querySelectorAll("[data-status-rh]").forEach(el => {
+    el.classList.toggle("aberto", s.aberto);
+    el.innerHTML = `<span class="ponto" aria-hidden="true"></span>${esc(s.texto)}`;
+  });
+  const quando = ATENDIMENTO.dias.join() === "1,2,3,4,5" ? "De segunda a sexta" : "Nos dias de atendimento";
+  const h = $("#horarioContato"); if(h) h.textContent = `${quando}: ${HORARIOS}.`;
+  const n = $("#painelNota"); if(n) n.textContent = `${quando}: ${HORARIOS}. Fora desse horário, sua mensagem é respondida no próximo atendimento.`;
+}
+setInterval(atualizarStatusRH, 60000);
+
+/* ---------- Mensagem do WhatsApp com o contexto da dúvida ---------- */
+function mensagemWA(area){
+  const f = estado.aberta && FAQ.find(x => chave(x) === estado.aberta);
+  if(f && !$("#resultados").hidden) return `Olá! Li a resposta sobre *${f.q}* no Bússola RH e ainda tenho uma dúvida.`;
+  const termo = estado.termo.trim();
+  if(termo && !estado.cat){
+    const semResultado = !document.querySelector("#resultados .qa");
+    return semResultado
+      ? `Olá! Procurei por *${termo}* no Bússola RH e não encontrei a resposta. Pode me ajudar?`
+      : `Olá! Pesquisei sobre *${termo}* no Bússola RH e ainda tenho uma dúvida.`;
+  }
+  if(estado.cat) return `Olá, tenho uma dúvida sobre *${estado.cat}* que não encontrei no Bússola RH.`;
+  return `Olá, tenho uma dúvida para o time de *${area}*.`;
+}
+// monta o link no momento do toque, com o contexto de onde a pessoa está
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[data-wa-num]");
+  if(!a) return;
+  a.href = waLink(a.dataset.waNum, mensagemWA(a.dataset.waArea));
+  registrarEvento("contato_whatsapp", { area: a.dataset.waArea, categoria: estado.cat || "", pergunta: (estado.aberta && FAQ.find(x => chave(x) === estado.aberta)?.q) || "", termo: estado.termo.trim() });
+}, true);
+
 /* ---------- Barra inferior ---------- */
 function navegarInferior(n){
   if(n === "inicio"){ if(estado.cat || estado.termo.trim()) voltarInicio(); else window.scrollTo({ top: 0, behavior: "smooth" }); }
@@ -1685,20 +1781,38 @@ function navegarInferior(n){
   }
 }
 
-function alternarPainel(forcar){
+function alternarPainel(forcar, gatilho){
   const p = $("#painel"), abrir = forcar ?? !p.classList.contains("aberto");
+  if(abrir){
+    atualizarStatusRH();
+    // no computador e tablet, o painel abre logo abaixo do botão clicado
+    if(gatilho && window.innerWidth >= 700){
+      const r = gatilho.getBoundingClientRect();
+      p.style.top = Math.round(r.bottom + 10) + "px";
+      p.style.bottom = "auto";
+      p.style.right = Math.max(16, Math.round(window.innerWidth - r.right)) + "px";
+      p.classList.add("no-topo");
+    } else {
+      p.style.top = p.style.bottom = p.style.right = "";
+      p.classList.remove("no-topo");
+    }
+  }
   p.classList.toggle("aberto", abrir);
-  document.querySelector(".fab").setAttribute("aria-expanded", String(abrir));
-  if(abrir) setTimeout(() => p.querySelector(".area-link")?.focus(), 50);
+  document.querySelectorAll("[data-abre-painel]").forEach(b => b.setAttribute("aria-expanded", String(abrir)));
+  if(abrir) setTimeout(() => p.querySelector(".area-link")?.focus({ preventScroll: true }), 50);
 }
+// o painel aberto a partir do topo acompanha o botão: ao rolar a página, ele fecha
+window.addEventListener("scroll", () => {
+  const p = $("#painel");
+  if(p.classList.contains("aberto") && p.classList.contains("no-topo") && !$("#barraFixa").classList.contains("visivel")) alternarPainel(false);
+}, { passive: true });
 document.addEventListener("keydown", e => {
   if(e.key === "Escape"){ alternarPainel(false); fecharSugestoes(); fecharDica(); alternarPref(false); }
   if(e.key === "/" && !/input|textarea/i.test(document.activeElement.tagName)){ e.preventDefault(); ($("#barraFixa").classList.contains("visivel") ? $("#campoBuscaMini") : $("#campoBusca")).focus(); }
 });
-// botão flutuante aparece quando o cabeçalho (que já tem o botão de WhatsApp) sai da tela
+// barra compacta aparece quando a busca principal sai da tela
 new IntersectionObserver(([en]) => {
   const fora = !en.isIntersecting || document.activeElement?.id === "campoBuscaMini";
-  document.querySelector(".fab").classList.toggle("oculto", !fora);
   const barra = $("#barraFixa");
   barra.classList.toggle("visivel", fora);
   barra.inert = !fora;
