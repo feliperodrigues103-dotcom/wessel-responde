@@ -576,13 +576,14 @@ mark{background:var(--marca-texto);color:inherit;border-radius:3px;padding:0 2px
 /* ---------- Atalhos de busca e botão de conversa ---------- */
 .hero-busca .sugestoes{top:64px}
 @media (min-width:1024px){.hero-busca .sugestoes{top:72px}}
-.atalhos{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
-@media (max-width:699.98px){
-  .atalhos{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:12px -20px 0;padding:0 20px 2px}
-  .atalhos::-webkit-scrollbar{display:none}
-}
-.atalhos-rot{font-size:.8125rem;font-weight:600;color:var(--sobre-mar);white-space:nowrap;flex:none}
-.atalho{flex:none;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.07);color:#fff;font-weight:600;font-size:.875rem;cursor:pointer;white-space:nowrap}
+.atalhos{display:flex;align-items:center;gap:6px;margin-top:12px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+.atalhos::-webkit-scrollbar{display:none}
+.atalhos.cabe{-webkit-mask-image:none;mask-image:none}
+@media (max-width:699.98px){.atalhos{margin:12px -20px 0;padding:0 20px 2px}}
+@media (min-width:1024px) and (max-width:1199.98px){.atalhos-rot{display:none}}
+.atalhos-rot{font-size:.8125rem;font-weight:600;color:var(--sobre-mar);white-space:nowrap;flex:none;margin-right:2px}
+.atalho{flex:none;min-height:38px;padding:0 10px;border-radius:999px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.07);color:#fff;font-weight:600;font-size:.8125rem;cursor:pointer;white-space:nowrap}
 .atalho:hover{border-color:var(--caramelo);background:rgba(255,255,255,.12)}
 .btn-conversar{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:8px;padding:0;border:0;background:none;color:var(--sobre-mar);font-size:.9375rem;cursor:pointer;text-align:left}
 .btn-conversar strong{color:var(--caramelo)}
@@ -2137,7 +2138,13 @@ document.addEventListener("click", e => {
 function renderAtalhos(){
   $("#atalhosBusca").innerHTML = `<span class="atalhos-rot">Mais buscados:</span>` +
     ATALHOS_BUSCA.map(a => `<button type="button" class="atalho" data-atalho="${esc(a)}">${esc(a)}</button>`).join("");
+  ajustarAtalhos();
 }
+function ajustarAtalhos(){
+  const el = $("#atalhosBusca"); if(!el) return;
+  el.classList.toggle("cabe", el.scrollWidth <= el.clientWidth + 1);
+}
+window.addEventListener("resize", ajustarAtalhos);
 function usarAtalho(termo){
   const campo = $("#campoBusca");
   campo.value = termo;
